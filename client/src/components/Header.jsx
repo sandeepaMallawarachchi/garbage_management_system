@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Navbar } from "flowbite-react";
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../images/logo.png';
+import AuthModel from "./AuthModel";
 
 const Header = () => {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     const location = useLocation();
 
@@ -17,6 +28,7 @@ const Header = () => {
 
                 <div className="flex md:order-2">
                     <Button
+                        onClick={handleOpenModal}
                         className="text-sm px-2 py-1 sm:px-4 sm:py-2 bg-green-600 hover:bg-green-700 rounded-full"
                     >
                         Login
@@ -58,6 +70,7 @@ const Header = () => {
                     </Navbar.Link>
                 </Navbar.Collapse>
             </Navbar>
+            <AuthModel isOpen={isModalOpen} onClose={handleCloseModal} />
         </div>
     );
 }

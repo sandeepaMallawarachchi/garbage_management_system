@@ -22,7 +22,7 @@ const FooterComponent = () => {
                         <div>
                             <Footer.Title title="Links" />
                             <Footer.LinkGroup col>
-                                <Footer.Link href="#">Home</Footer.Link>
+                                <Footer.Link href="/">Home</Footer.Link>
                                 <Footer.Link href="#">About</Footer.Link>
                             </Footer.LinkGroup>
                         </div>
