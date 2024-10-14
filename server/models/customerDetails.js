@@ -39,11 +39,6 @@ const customerSchema = new Schema({
         type: Date,
         required: false
     },
-    role: {
-        type: String,
-        required: true,
-        default: 'customer',
-    }
 });
 
 const Customer = mongoose.model("Customer", customerSchema);

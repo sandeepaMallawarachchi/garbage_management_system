@@ -8,6 +8,8 @@ import FooterComponent from './components/FooterComponent';
 
 //pages
 import Home from './pages/Home';
+import WasteSchedule from './pages/WasteSchedule';
+import AllSchedules from './pages/AllSchedules';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
 
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/wasteSchedule' element={<WasteSchedule />} />
+        <Route path='/allSchedules' element={<AllSchedules />} />
       </Routes>
 
       <FooterComponent />

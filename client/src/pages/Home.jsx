@@ -7,6 +7,7 @@ import card3 from '../images/card3.png';
 import cardbg1 from '../images/cardbg1.png';
 import cardbg2 from '../images/cardbg2.png';
 import cardbg3 from '../images/cardbg3.png';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     return (
@@ -34,7 +35,7 @@ const Home = () => {
             {/* cards */}
             <div className="flex justify-center items-center my-20">
                 <div className="relative flex flex-row space-x-10 cursor-pointer">
-                    <div className="relative z-10">
+                    <Link to={'/wasteSchedule'}><div className="relative z-10">
                         <Card className="max-w-sm bg-white rounded-lg shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105" style={{ backgroundImage: `url(${cardbg1})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                             <img src={card1} alt="schedule" className="w-full h-48 object-cover rounded-lg" />
                             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -44,10 +45,10 @@ const Home = () => {
                                 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
                             </p>
                         </Card>
-                    </div>
+                    </div></Link>
 
                     <div className="relative z-20">
-                        <Card className="max-w-sm bg-white rounded-lg shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105" style={{ backgroundImage: `url(${cardbg2})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                        <Link to={'/allSchedules'}><Card className="max-w-sm bg-white rounded-lg shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105" style={{ backgroundImage: `url(${cardbg2})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                             <img src={card2} alt="schedule" className="w-full h-48 object-cover rounded-lg" />
                             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 Make Payment
@@ -55,7 +56,7 @@ const Home = () => {
                             <p className="font-normal text-gray-700 dark:text-gray-400">
                                 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
                             </p>
-                        </Card>
+                        </Card></Link>
                     </div>
 
                     <div className="relative z-30">
