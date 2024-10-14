@@ -18,4 +18,13 @@ router.post("/register", customerController.registerCustomer);
 // PayHere notify route
 router.post('/notify', paymentController.handlePayHereNotification);
 
+//schedule route
+router.post("/addSchedule/:cusID", customerController.scheduleCollection);
+
+//schedule route
+router.get("/getAllSchedules/:cusID", customerController.getAllSchedulesById);
+
+//schedule route
+router.get("/getSchedule/:cusID/:scheduleID", customerController.getScheduleById);
+
 module.exports = router;

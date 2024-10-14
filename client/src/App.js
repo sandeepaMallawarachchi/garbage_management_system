@@ -10,6 +10,7 @@ import FooterComponent from './components/FooterComponent';
 import Home from './pages/Home';
 import WasteSchedule from './pages/WasteSchedule';
 import AllSchedules from './pages/AllSchedules';
+import WasteLevels from './pages/WasteLevels';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/wasteSchedule' element={<WasteSchedule />} />
         <Route path='/allSchedules' element={<AllSchedules />} />
+        <Route path='/wasteLevels' element={<WasteLevels />} />
       </Routes>
 
       <FooterComponent />
