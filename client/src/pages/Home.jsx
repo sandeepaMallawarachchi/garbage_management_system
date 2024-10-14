@@ -60,7 +60,7 @@ const Home = () => {
                     </div>
 
                     <div className="relative z-30">
-                        <Card className="max-w-sm bg-white rounded-lg shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105" style={{ backgroundImage: `url(${cardbg3})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                        <Link to={'/wasteLevels'}><Card className="max-w-sm bg-white rounded-lg shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105" style={{ backgroundImage: `url(${cardbg3})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                             <img src={card3} alt="schedule" className="w-full h-48 object-cover rounded-lg" />
                             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 Waste Levels
@@ -68,7 +68,7 @@ const Home = () => {
                             <p className="font-normal text-gray-700 dark:text-gray-400">
                                 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
                             </p>
-                        </Card>
+                        </Card></Link>
                     </div>
                 </div>
             </div>

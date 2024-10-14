@@ -10,7 +10,7 @@ const AllSchedules = () => {
       scheduleType: 'General',
       date: '2024-10-20',
       remarks: 'Pick up from front porch',
-      paymentMethod: 'E-Wallet',
+      paymentMethod: 'Cash on Visit',
       total: 500,
     },
     {

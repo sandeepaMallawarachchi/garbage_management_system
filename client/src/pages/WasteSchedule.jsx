@@ -9,6 +9,7 @@ const WasteSchedule = () => {
     const [paymentMethod, setPaymentMethod] = useState('');
     const [date, setDate] = useState('');
     const navigate = useNavigate();
+    const cusID = localStorage.getItem("cusID");
 
     const handleScheduleChange = (e) => {
         const value = e.target.value;
@@ -16,8 +17,38 @@ const WasteSchedule = () => {
         setShowPayment(value === 'special');
     };
 
-    const handleForm = () => {
-        navigate('/allSchedules')
+    const handleForm = async (e) => {
+        e.preventDefault();
+        const scheduleData = {
+            wasteType: document.getElementById("type").value,
+            address: document.getElementById("address").value,
+            amount: document.getElementById("amount").value,
+            remarks: document.getElementById("remarks").value,
+            date: date,
+            scheduleType: scheduleType,
+            paymentMethod: paymentMethod,
+        };
+
+        try {
+            const response = await fetch(`http://localhost:4000/customer/addSchedule/${cusID}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(scheduleData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to schedule collection');
+            }
+
+            const result = await response.json();
+            console.log(result.message);
+            navigate('/allSchedules');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error scheduling a collection!')
+        }
     }
 
     const basePayment = 500;
@@ -25,7 +56,7 @@ const WasteSchedule = () => {
     const totalPayment = basePayment + additionalPayment;
 
     return (
-        <div className="flex items-center justify-between h-screen my-10">
+        <div className="flex items-center justify-between h-screen my-20">
             <div className="flex-1">
                 <img src={schedulebg} alt="schedule background" className="object-cover w-full h-full" />
             </div>
@@ -53,11 +84,17 @@ const WasteSchedule = () => {
 
                     <div>
                         <div className="mb-2 block">
+                            <Label htmlFor="amount" value="Amount (KG)" />
+                        </div>
+                        <TextInput id="amount" type="text" placeholder="Amount of waste (Approximately)" required shadow />
+                    </div>
+
+                    <div>
+                        <div className="mb-2 block">
                             <Label htmlFor="remarks" value="Remarks" />
                         </div>
                         <Textarea id="remarks" placeholder="Additional comments" shadow />
                     </div>
-
                     <div>
                         <div className="mb-2 block">
                             <Label value="Schedule Type" />
@@ -110,17 +147,6 @@ const WasteSchedule = () => {
                         <Label value="Select Payment Method" />
                     </div>
                     <div className="flex flex-col gap-4">
-                        <label htmlFor="ewallet" className="flex items-center gap-2">
-                            <Radio
-                                id="ewallet"
-                                name="paymentMethod"
-                                value="ewallet"
-                                checked={paymentMethod === 'ewallet'}
-                                onChange={() => setPaymentMethod('ewallet')}
-                            />
-                            E-Wallet
-                        </label>
-
                         <label htmlFor="card" className="flex items-center gap-2">
                             <Radio
                                 id="card"
