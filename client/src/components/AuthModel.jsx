@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Button, Label, TextInput } from "flowbite-react";
+import { Button, Label, TextInput, FileInput } from "flowbite-react";
 import { HiMail, HiLockClosed, HiUser, HiPhone, HiHome, HiX } from "react-icons/hi";
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
@@ -17,14 +17,38 @@ const AuthModal = ({ isOpen, onClose }) => {
     const [isRegistering, setIsRegistering] = useState(false);
     const navigate = useNavigate();
 
+    // Validation patterns
+    const namePattern = /^[a-zA-Z\s]+$/;
+    const phonePattern = /^[0-9]{10}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const addressPattern = /^[a-zA-Z0-9\s]+$/;
+
     const handleRegister = async (e) => {
         e.preventDefault();
+        if (!namePattern.test(name)) {
+            alert("Name should only contain letters and spaces.");
+            return;
+        }
+        if (!phonePattern.test(phone)) {
+            alert("Phone number must be 10 digits.");
+            return;
+        }
+        if (!passwordPattern.test(password)) {
+            alert(
+                "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character."
+            );
+            return;
+        }
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
+        if (!addressPattern.test(address)) {
+            alert("Address should not contain special characters.");
+            return;
+        }
         try {
-            await axios.post("http://localhost:4000/admin/register", {
+            await axios.post("http://localhost:4000/customer/register", {
                 name,
                 email,
                 password,
@@ -40,14 +64,14 @@ const AuthModal = ({ isOpen, onClose }) => {
     const sendData = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:4000/admin/login", {
+            const res = await axios.post("http://localhost:4000/customer/login", {
                 email,
                 password,
             });
             const adminID = res.data.admin.adminID;
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("adminID", adminID);
-            navigate(`/admin/admindashboard`);
+            navigate(`/`);
         } catch (error) {
             alert("Login failed! Invalid email or password.");
         }
@@ -93,7 +117,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <div className="relative">
+                        <div>
                             <Label htmlFor="registerPassword" value="Password" />
                             <TextInput
                                 id="registerPassword"
@@ -102,17 +126,16 @@ const AuthModal = ({ isOpen, onClose }) => {
                                 placeholder="Password"
                                 required
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="pr-10"
                             />
                             <button
                                 type="button"
-                                className="absolute inset-y-0 right-0 flex items-center pr-10 focus:outline-none"
+                                className="absolute insert-y-0 right-0 flex items-center pr-10 focus:outline-none -mt-7"
                                 onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? <VscEye /> : <VscEyeClosed />}
                             </button>
                         </div>
-                        <div className="relative">
+                        <div>
                             <Label htmlFor="confirmPassword" value="Confirm Password" />
                             <TextInput
                                 id="confirmPassword"
@@ -121,11 +144,10 @@ const AuthModal = ({ isOpen, onClose }) => {
                                 placeholder="Confirm Password"
                                 required
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="pr-10"
                             />
                             <button
                                 type="button"
-                                className="absolute inset-y-0 right-0 flex items-center pr-10 focus:outline-none"
+                                className="absolute insert-y-0 right-0 flex items-center pr-10 focus:outline-none -mt-7"
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                             >
                                 {showConfirmPassword ? <VscEye /> : <VscEyeClosed />}
@@ -152,6 +174,12 @@ const AuthModal = ({ isOpen, onClose }) => {
                                 required
                                 onChange={(e) => setAddress(e.target.value)}
                             />
+                        </div>
+                        <div>
+                            <div>
+                                <Label htmlFor="file-upload-helper-text" value="NIC" />
+                            </div>
+                            <FileInput id="file-upload-helper-text" helperText="SVG, PNG or JPG (MAX 2MB)." />
                         </div>
                         <Button
                             type="submit"
@@ -182,7 +210,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <div className="relative">
+                        <div>
                             <Label htmlFor="password" value="Your password" />
                             <TextInput
                                 id="password"
@@ -191,14 +219,17 @@ const AuthModal = ({ isOpen, onClose }) => {
                                 placeholder="Password"
                                 required
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="pr-10"
                             />
                             <button
                                 type="button"
-                                className="absolute inset-y-0 right-0 flex items-center pr-10 focus:outline-none"
+                                className="absolute insert-y-0 right-0 flex items-center pr-10 focus:outline-none -mt-7"
                                 onClick={() => setShowPassword(!showPassword)}
                             >
-                                {showPassword ? <VscEye /> : <VscEyeClosed />}
+                                {showPassword ? (
+                                    <VscEye />
+                                ) : (
+                                    <VscEyeClosed />
+                                )}
                             </button>
                         </div>
                         <Button

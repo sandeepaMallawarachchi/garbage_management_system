@@ -10,11 +10,11 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// // Import routes
-// const adminRouter = require('./routes/adminRoutes');
+// Import routes
+const customerRouter = require('./routes/customerRoutes');
 
-// // Use routes
-// app.use('/admin', adminRouter);
+// Use routes
+app.use('/customer', customerRouter);
 
 // DB connection
 dbConnection();

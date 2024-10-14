@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Navbar } from "flowbite-react";
+import { Button, Navbar, Dropdown } from "flowbite-react";
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../images/logo.png';
 import AuthModel from "./AuthModel";
@@ -44,14 +44,21 @@ const Header = () => {
                     >
                         Home
                     </Navbar.Link>
-                    <Navbar.Link
-                        as={Link}
-                        to="/services"
-                        className={`hover:text-green-600 text-sm sm:text-base ${location.pathname === "/services" ? "text-green-600" : ""
-                            }`}
+                    <Dropdown
+                        label="Services"
+                        inline={true}
+                        className={`hover:text-green-600 w-32 text-sm sm:text-base ${location.pathname.startsWith("/services") ? "text-green-600" : ""}`}
                     >
-                        Services
-                    </Navbar.Link>
+                        <Dropdown.Item as={Link} to="/services/service1">
+                            Service 1
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/services/service2">
+                            Service 2
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/services/service3">
+                            Service 3
+                        </Dropdown.Item>
+                    </Dropdown>
                     <Navbar.Link
                         as={Link}
                         to="/about"
