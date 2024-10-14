@@ -55,7 +55,15 @@ const AuthModal = ({ isOpen, onClose }) => {
                 phone,
                 address,
             });
-            navigate("/login");
+
+            alert("Registration successful! You can now log in.");
+            setIsRegistering(false);
+            setName("");
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+            setPhone("");
+            setAddress("");
         } catch (error) {
             alert("Registration failed! Please try again.");
         }
@@ -68,10 +76,10 @@ const AuthModal = ({ isOpen, onClose }) => {
                 email,
                 password,
             });
-            const adminID = res.data.admin.adminID;
+            const cusID = res.data.customer.cusID;
             localStorage.setItem("token", res.data.token);
-            localStorage.setItem("adminID", adminID);
-            navigate(`/`);
+            localStorage.setItem("cusID", cusID);
+            onClose();
         } catch (error) {
             alert("Login failed! Invalid email or password.");
         }
@@ -174,12 +182,6 @@ const AuthModal = ({ isOpen, onClose }) => {
                                 required
                                 onChange={(e) => setAddress(e.target.value)}
                             />
-                        </div>
-                        <div>
-                            <div>
-                                <Label htmlFor="file-upload-helper-text" value="NIC" />
-                            </div>
-                            <FileInput id="file-upload-helper-text" helperText="SVG, PNG or JPG (MAX 2MB)." />
                         </div>
                         <Button
                             type="submit"

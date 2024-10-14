@@ -27,7 +27,7 @@ exports.cusLogin = async (req, res) => {
       }
   
       // Generate a JWT token valid for 24 hours
-      const token = jwt.sign({ adminId: customer._id }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ cusID: customer._id }, process.env.JWT_SECRET, {
         expiresIn: "24h",
       });
   
@@ -70,10 +70,8 @@ exports.cusLogin = async (req, res) => {
         name,
         email,
         password,
-        confirmPassword,
         address,
         phone,
-        role,
       } = req.body;
   
       const existingCustomer = await Customer.findOne({ $or: [{ email }, { phone }] });
@@ -82,11 +80,7 @@ exports.cusLogin = async (req, res) => {
           message: "Customer with this email or phone number already exists",
         });
       }
-  
-      if (password !== confirmPassword) {
-        return res.status(400).json({ message: "Passwords do not match" });
-      }
-  
+        
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
   
@@ -97,7 +91,6 @@ exports.cusLogin = async (req, res) => {
         password: hashedPassword,
         address,
         phone,
-        role,
       });
   
       await newCustomer.save();
