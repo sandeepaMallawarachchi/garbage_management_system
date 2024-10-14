@@ -1,9 +1,20 @@
-import React from 'react';
-import { Button, Navbar } from "flowbite-react";
+import React, { useState } from 'react';
+import { Button, Navbar, Dropdown } from "flowbite-react";
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../images/logo.png';
+import AuthModel from "./AuthModel";
 
 const Header = () => {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     const location = useLocation();
 
@@ -17,6 +28,7 @@ const Header = () => {
 
                 <div className="flex md:order-2">
                     <Button
+                        onClick={handleOpenModal}
                         className="text-sm px-2 py-1 sm:px-4 sm:py-2 bg-green-600 hover:bg-green-700 rounded-full"
                     >
                         Login
@@ -32,14 +44,21 @@ const Header = () => {
                     >
                         Home
                     </Navbar.Link>
-                    <Navbar.Link
-                        as={Link}
-                        to="/services"
-                        className={`hover:text-green-600 text-sm sm:text-base ${location.pathname === "/services" ? "text-green-600" : ""
-                            }`}
+                    <Dropdown
+                        label="Services"
+                        inline={true}
+                        className={`hover:text-green-600 w-32 text-sm sm:text-base ${location.pathname.startsWith("/services") ? "text-green-600" : ""}`}
                     >
-                        Services
-                    </Navbar.Link>
+                        <Dropdown.Item as={Link} to="/services/service1">
+                            Service 1
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/services/service2">
+                            Service 2
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/services/service3">
+                            Service 3
+                        </Dropdown.Item>
+                    </Dropdown>
                     <Navbar.Link
                         as={Link}
                         to="/about"
@@ -58,6 +77,7 @@ const Header = () => {
                     </Navbar.Link>
                 </Navbar.Collapse>
             </Navbar>
+            <AuthModel isOpen={isModalOpen} onClose={handleCloseModal} />
         </div>
     );
 }
