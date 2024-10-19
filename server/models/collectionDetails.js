@@ -5,46 +5,56 @@ const collectionSchema = new Schema({
     cusID: {
         type: String,
         required: true,
-    },
-    scheduleID: {
-        type: String,
-        required: true,
         unique: true,
-        default: () => `schedule_${new Date().getTime()}`,
     },
-    wasteType: {
-        type: String,
-        required: true,
-        enum: ['organic', 'recycable', 'eWaste'],
-    },
-    address: {
-        type: String,
-        required: true,
-    },
-    amount: {
-        type: String,
-        required: true,
-    },
-    remarks: {
-        type: String,
-        required: false,
-    },
-    date: {
-        type: Date,
-        required: false
-    },
-    scheduleType: {
-        type: String,
-        required: true,
-        enum: ['general', 'special'],
-    },
-    paymentMethod: {
-        type: String,
-        required: true,
-        enum: ['cash', 'card'],
-    },
+    schedules: [
+        {
+            scheduleID: {
+                type: String,
+                required: true,
+                default: () => `schedule_${new Date().getTime()}`,
+            },
+            wasteType: {
+                type: String,
+                required: true,
+                enum: ['organic', 'recyclable', 'eWaste'],
+            },
+            address: {
+                type: String,
+                required: true,
+            },
+            amount: {
+                type: String,
+                required: true,
+            },
+            remarks: {
+                type: String,
+            },
+            price: {
+                type: String,
+                required: true,
+            },
+            date: {
+                type: Date,
+            },
+            scheduleType: {
+                type: String,
+                required: true,
+                enum: ['general', 'special'],
+            },
+            paymentMethod: {
+                type: String,
+                required: true,
+                enum: ['cash', 'card'],
+            },
+            status: {
+                type: String,
+                require: true,
+                default: 'pending'
+            }
+        }
+    ]
 });
 
 const Schedule = mongoose.model("Schedule", collectionSchema);
-
 module.exports = Schedule;

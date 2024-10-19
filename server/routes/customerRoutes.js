@@ -21,10 +21,16 @@ router.post('/notify', paymentController.handlePayHereNotification);
 //schedule route
 router.post("/addSchedule/:cusID", customerController.scheduleCollection);
 
-//schedule route
+//get all schedule route
 router.get("/getAllSchedules/:cusID", customerController.getAllSchedulesById);
 
-//schedule route
+//get a schedule route
 router.get("/getSchedule/:cusID/:scheduleID", customerController.getScheduleById);
+
+//update schedule route
+router.put("/updateSchedule/:cusID/:scheduleID", customerController.updateSchedule);
+
+//delte schedule route
+router.delete("/deleteSchedule/:cusID/:scheduleID", customerController.deleteSchedule);
 
 module.exports = router;

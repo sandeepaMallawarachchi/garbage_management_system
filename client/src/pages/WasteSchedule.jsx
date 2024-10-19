@@ -15,6 +15,10 @@ const WasteSchedule = () => {
         const value = e.target.value;
         setScheduleType(value);
         setShowPayment(value === 'special');
+
+        if (value === 'general') {
+            setDate('');
+        }
     };
 
     const handleForm = async (e) => {
@@ -24,9 +28,10 @@ const WasteSchedule = () => {
             address: document.getElementById("address").value,
             amount: document.getElementById("amount").value,
             remarks: document.getElementById("remarks").value,
-            date: date,
+            date: scheduleType === 'general' ? null : (date ? new Date(date) : null),
             scheduleType: scheduleType,
             paymentMethod: paymentMethod,
+            price: totalPayment,
         };
 
         try {
@@ -39,15 +44,16 @@ const WasteSchedule = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to schedule collection');
+                const errorText = await response.text();
+                throw new Error(`Failed to schedule collection: ${errorText}`);
             }
 
             const result = await response.json();
             console.log(result.message);
-            navigate('/allSchedules');
+            alert('Successfully scheduled the collection')
         } catch (error) {
             console.error('Error:', error);
-            alert('Error scheduling a collection!')
+            alert('Error scheduling a collection! ');
         }
     }
 
