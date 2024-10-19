@@ -1,38 +1,36 @@
 import React from "react";
 import { Sidebar } from "flowbite-react";
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser, HiViewBoards } from "react-icons/hi";
+import logo from '../images/logo.png';
+import { HiDocumentReport, HiChartPie, HiInbox, HiUser, HiLogout } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
-const SidebarDemo = () => {
-
+const AdminSidebar = () => {
   return (
-    <Sidebar aria-label="Default sidebar example" className="m-10 h-[20rem]">
+    <Sidebar aria-label="" className="m-10 h-[40rem]">
+      <Sidebar.Logo href="#" img={logo} imgAlt="*greenbin logo">
+        Green Bin
+      </Sidebar.Logo>
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item href="#" icon={HiChartPie}>
+          <Sidebar.Item as={Link} to="/admin/dashboard/content" icon={HiChartPie}>
             Dashboard
           </Sidebar.Item>
-          {/* <Sidebar.Item href="#" icon={HiViewBoards} label="Pro" labelColor="dark">
-            Kanban
-          </Sidebar.Item> */}
-          <Sidebar.Item href="#" icon={HiInbox} label="3">
+          <Sidebar.Item as={Link} to="/admin/requests" icon={HiInbox} label="3">
             Requests
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiUser}>
+          <Sidebar.Item as={Link} to="/admin/users" icon={HiUser}>
             Users
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiShoppingBag}>
+          <Sidebar.Item as={Link} to="/admin/reports" icon={HiDocumentReport}>
             Reports
           </Sidebar.Item>
-          {/* <Sidebar.Item href="#" icon={HiArrowSmRight}>
-            Sign In
+          <Sidebar.Item href="#" icon={HiLogout} className="mt-[19rem]">
+            Sign Out
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiTable}>
-            Sign Up
-          </Sidebar.Item> */}
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
   );
 }
 
-export default SidebarDemo;
+export default AdminSidebar;
