@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Modal, Button, TextInput, Select } from 'flowbite-react';
+import { Table, Modal, Button, TextInput, Select, Label, Radio } from 'flowbite-react';
 import { HiPencil, HiTrash } from 'react-icons/hi';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const AllSchedules = () => {
   const [schedules, setSchedules] = useState([]);
@@ -88,7 +89,17 @@ const AllSchedules = () => {
 
   return (
     <div className="p-20 overflow-x-auto">
-      <h2 className="text-2xl font-bold mb-4 text-green-600">Scheduled Waste Collections</h2>
+      <div className="relative flex flex-row justify-between items-start mb-5">
+        <h2 className="text-2xl font-bold mb-4 text-green-600">Scheduled Waste Collections</h2>
+        <Link to='/wasteSchedule'>
+          <button
+            className="font-medium bg-green-600 text-white p-2 px-3 rounded-2xl hover:bg-green-700 ml-4 cursor-pointer"
+          >
+            + Add Schedule
+          </button>
+        </Link>
+      </div>
+
       <Table>
         <Table.Head>
           <Table.HeadCell>Schedule Type</Table.HeadCell>
@@ -97,6 +108,7 @@ const AllSchedules = () => {
           <Table.HeadCell>Remarks</Table.HeadCell>
           <Table.HeadCell>Payment Method</Table.HeadCell>
           <Table.HeadCell>Total</Table.HeadCell>
+          <Table.HeadCell>Status</Table.HeadCell>
           <Table.HeadCell>Actions</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
@@ -106,8 +118,9 @@ const AllSchedules = () => {
               <Table.Cell>{schedule.wasteType}</Table.Cell>
               <Table.Cell>{formatDate(schedule.date)}</Table.Cell>
               <Table.Cell>{schedule.remarks || '-'}</Table.Cell>
-              <Table.Cell>{schedule.paymentMethod}</Table.Cell>
-              <Table.Cell>{schedule.total} Rupees</Table.Cell>
+              <Table.Cell>{schedule.paymentMethod} payment</Table.Cell>
+              <Table.Cell>{schedule.price} Rupees</Table.Cell>
+              <Table.Cell>{schedule.status}</Table.Cell>
               <Table.Cell>
                 <a onClick={() => handleUpdate(schedule)} className="font-medium cursor-pointer">
                   <HiPencil className="inline-block w-7 h-7 text-green-500" />
@@ -134,12 +147,32 @@ const AllSchedules = () => {
           <Modal.Header>Update Schedule</Modal.Header>
           <Modal.Body>
             <div className="space-y-4">
-              <TextInput
-                label="Schedule Type"
-                placeholder='Schedule Type'
-                value={selectedSchedule.scheduleType}
-                onChange={(e) => setSelectedSchedule({ ...selectedSchedule, scheduleType: e.target.value })}
-              />
+              <div>
+                <Label value="Schedule Type" />
+                <div className="flex gap-4">
+                  <label htmlFor="general" className="flex items-center gap-2">
+                    <Radio
+                      id="general"
+                      name="scheduleType"
+                      value="general"
+                      checked={selectedSchedule.scheduleType === 'general'}
+                      onChange={(e) => setSelectedSchedule({ ...selectedSchedule, scheduleType: e.target.value })}
+                    />
+                    General Schedule
+                  </label>
+                  <label htmlFor="special" className="flex items-center gap-2">
+                    <Radio
+                      id="special"
+                      name="scheduleType"
+                      value="special"
+                      checked={selectedSchedule.scheduleType === 'special'}
+                      onChange={(e) => setSelectedSchedule({ ...selectedSchedule, scheduleType: e.target.value })}
+                    />
+                    Special Schedule
+                  </label>
+                </div>
+              </div>
+
               <Select
                 label="Waste Type"
                 value={selectedSchedule.wasteType}
@@ -150,23 +183,46 @@ const AllSchedules = () => {
                 <option value="recyclable">Recyclable</option>
                 <option value="ewaste">E-waste</option>
               </Select>
+
               <TextInput
                 label="Remarks"
-                placeholder='Your remarks'
+                placeholder="Your remarks"
                 value={selectedSchedule.remarks || ''}
                 onChange={(e) => setSelectedSchedule({ ...selectedSchedule, remarks: e.target.value })}
               />
+
               <TextInput
                 label="Date"
                 type="date"
                 value={formatDate(selectedSchedule.date)}
                 onChange={(e) => setSelectedSchedule({ ...selectedSchedule, date: e.target.value })}
               />
-              <TextInput
-                label="Payment Method"
-                value={selectedSchedule.paymentMethod}
-                onChange={(e) => setSelectedSchedule({ ...selectedSchedule, paymentMethod: e.target.value })}
-              />
+
+              <div>
+                <Label value="Payment Method" />
+                <div className="flex gap-4">
+                  <label htmlFor="card" className="flex items-center gap-2">
+                    <Radio
+                      id="card"
+                      name="paymentMethod"
+                      value="card"
+                      checked={selectedSchedule.paymentMethod === 'card'}
+                      onChange={(e) => setSelectedSchedule({ ...selectedSchedule, paymentMethod: e.target.value })}
+                    />
+                    Credit/Debit Card
+                  </label>
+                  <label htmlFor="cash" className="flex items-center gap-2">
+                    <Radio
+                      id="cash"
+                      name="paymentMethod"
+                      value="cash"
+                      checked={selectedSchedule.paymentMethod === 'cash'}
+                      onChange={(e) => setSelectedSchedule({ ...selectedSchedule, paymentMethod: e.target.value })}
+                    />
+                    Cash on Visit
+                  </label>
+                </div>
+              </div>
             </div>
           </Modal.Body>
           <Modal.Footer>

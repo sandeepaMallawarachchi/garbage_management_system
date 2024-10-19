@@ -15,6 +15,9 @@ router.get("/dashboard", authMiddleware, (req, res) => {
 //register route
 router.post("/register", customerController.registerCustomer);
 
+//get customer by id
+router.get('/getCustomer/:cusID', customerController.getCustomerById)
+
 // PayHere notify route
 router.post('/notify', paymentController.handlePayHereNotification);
 
@@ -30,7 +33,10 @@ router.get("/getSchedule/:cusID/:scheduleID", customerController.getScheduleById
 //update schedule route
 router.put("/updateSchedule/:cusID/:scheduleID", customerController.updateSchedule);
 
-//delte schedule route
+//delete schedule route
 router.delete("/deleteSchedule/:cusID/:scheduleID", customerController.deleteSchedule);
+
+//get waste levels route
+router.get("/getWasteLevels/:cusID", customerController.getWasteLevels);
 
 module.exports = router;

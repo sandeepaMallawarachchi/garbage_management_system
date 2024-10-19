@@ -247,3 +247,41 @@ exports.deleteSchedule = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+//get waste levels by cusID
+exports.getWasteLevels = async (req, res) => {
+  const { cusID } = req.params;
+
+  try {
+    const customer = await Schedule.findOne({ cusID });
+
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    const wasteLevels = {
+      organic: 0,
+      recyclable: 0,
+      eWaste: 0,
+    };
+
+    customer.schedules.forEach(schedule => {
+      const { wasteType, amount } = schedule;
+
+      if (wasteType === 'organic') {
+        wasteLevels.organic += parseInt(amount, 10) || 0;
+      } else if (wasteType === 'recyclable') {
+        wasteLevels.recyclable += [...amount].reduce((sum, char) => sum + parseInt(char, 10), 0);
+      } else if (wasteType === 'ewaste') {
+        wasteLevels.eWaste += parseInt(amount, 10) || 0;
+      }
+    });
+
+    res.status(200).json(wasteLevels);
+  } catch (error) {
+    console.error('Error fetching waste levels:', error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+

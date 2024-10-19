@@ -1,15 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Label, TextInput, Textarea, Radio, Select } from "flowbite-react";
 import schedulebg from '../images/schedulebg.png';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const WasteSchedule = () => {
     const [scheduleType, setScheduleType] = useState('general');
     const [showPayment, setShowPayment] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState('');
     const [date, setDate] = useState('');
+    const [address, setAddress] = useState('');
     const navigate = useNavigate();
     const cusID = localStorage.getItem("cusID");
+
+    useEffect(() => {
+        if (!cusID) {
+            alert("Customer ID not found, please login again.");
+            navigate("/login");
+        } else {
+            const fetchAddress = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:4000/customer/getCustomer/${cusID}`);
+                    setAddress(response.data.address);
+                } catch (err) {
+                    console.log('Error fetching address data');
+                }
+            };
+            fetchAddress();
+        }
+    }, [cusID, navigate]);
 
     const handleScheduleChange = (e) => {
         const value = e.target.value;
@@ -18,11 +37,18 @@ const WasteSchedule = () => {
 
         if (value === 'general') {
             setDate('');
+            setPaymentMethod('');
         }
     };
 
     const handleForm = async (e) => {
         e.preventDefault();
+
+        if (scheduleType === 'special' && !paymentMethod) {
+            alert('Please select a payment method.');
+            return;
+        }
+
         const scheduleData = {
             wasteType: document.getElementById("type").value,
             address: document.getElementById("address").value,
@@ -49,8 +75,7 @@ const WasteSchedule = () => {
             }
 
             const result = await response.json();
-            console.log(result.message);
-            alert('Successfully scheduled the collection')
+            alert('Successfully scheduled the collection');
         } catch (error) {
             console.error('Error:', error);
             alert('Error scheduling a collection! ');
@@ -85,7 +110,15 @@ const WasteSchedule = () => {
                         <div className="mb-2 block">
                             <Label htmlFor="address" value="Address" />
                         </div>
-                        <TextInput id="address" type="text" placeholder="Your address" required shadow />
+                        <TextInput
+                            id="address"
+                            type="text"
+                            placeholder="Your address"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            required
+                            shadow
+                        />
                     </div>
 
                     <div>
@@ -101,6 +134,7 @@ const WasteSchedule = () => {
                         </div>
                         <Textarea id="remarks" placeholder="Additional comments" shadow />
                     </div>
+
                     <div>
                         <div className="mb-2 block">
                             <Label value="Schedule Type" />
@@ -131,50 +165,52 @@ const WasteSchedule = () => {
                     </div>
 
                     {showPayment && (
-                        <>
-                            <div>
-                                <div className="mb-2 block">
-                                    <Label htmlFor="date" value="Select Date" />
-                                </div>
-                                <TextInput
-                                    id="date"
-                                    type="date"
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                    required
-                                    shadow
-                                />
+                        <div>
+                            <div className="mb-2 block">
+                                <Label htmlFor="date" value="Select Date" />
                             </div>
-                        </>
+                            <TextInput
+                                id="date"
+                                type="date"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                                required
+                                shadow
+                            />
+                        </div>
                     )}
 
                     <p className="mb-2 text-green-600 text-2xl">Payment: {totalPayment} Rupees</p>
-                    <div className="mb-2">
-                        <Label value="Select Payment Method" />
-                    </div>
-                    <div className="flex flex-col gap-4">
-                        <label htmlFor="card" className="flex items-center gap-2">
-                            <Radio
-                                id="card"
-                                name="paymentMethod"
-                                value="card"
-                                checked={paymentMethod === 'card'}
-                                onChange={() => setPaymentMethod('card')}
-                            />
-                            Credit/Debit Card
-                        </label>
+                    {showPayment && (
+                        <>
+                            <div className="mb-2">
+                                <Label value="Select Payment Method" />
+                            </div>
+                            <div className="flex flex-col gap-4">
+                                <label htmlFor="card" className="flex items-center gap-2">
+                                    <Radio
+                                        id="card"
+                                        name="paymentMethod"
+                                        value="card"
+                                        checked={paymentMethod === 'card'}
+                                        onChange={() => setPaymentMethod('card')}
+                                    />
+                                    Credit/Debit Card
+                                </label>
 
-                        <label htmlFor="cash" className="flex items-center gap-2">
-                            <Radio
-                                id="cash"
-                                name="paymentMethod"
-                                value="cash"
-                                checked={paymentMethod === 'cash'}
-                                onChange={() => setPaymentMethod('cash')}
-                            />
-                            Cash on Visit
-                        </label>
-                    </div>
+                                <label htmlFor="cash" className="flex items-center gap-2">
+                                    <Radio
+                                        id="cash"
+                                        name="paymentMethod"
+                                        value="cash"
+                                        checked={paymentMethod === 'cash'}
+                                        onChange={() => setPaymentMethod('cash')}
+                                    />
+                                    Cash on Visit
+                                </label>
+                            </div>
+                        </>
+                    )}
 
                     <Button
                         type="submit"

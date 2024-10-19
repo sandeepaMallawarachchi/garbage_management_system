@@ -68,7 +68,7 @@ const Header = () => {
                     <Dropdown
                         label="Services"
                         inline={true}
-                        className={`hover:text-green-600 w-64 text-sm sm:text-base ${location.pathname.startsWith("/services") ? "text-green-600" : ""}`}
+                        className={`hover:text-green-600 w-64 text-sm sm:text-base ${location.pathname.startsWith("/allSchedules") ? "text-green-600" : ""}`}
                     >
                         <Dropdown.Item as={Link} to="/wasteSchedule">
                             Schedule Waste Collection
