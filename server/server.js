@@ -12,9 +12,13 @@ app.use(express.json());
 
 // Import routes
 const customerRouter = require('./routes/customerRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const reportRoutes = require('./routes/reportRoutes')
 
 // Use routes
 app.use('/customer', customerRouter);
+app.use('/admin', adminRoutes);
+app.use('/report', reportRoutes);
 
 // DB connection
 dbConnection();

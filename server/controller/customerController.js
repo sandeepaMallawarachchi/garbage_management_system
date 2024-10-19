@@ -247,3 +247,33 @@ exports.deleteSchedule = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+//update price & status
+exports.setPrice_Status = async (req, res) => {
+  const { cusID, scheduleID } = req.params;
+  const { 
+    price, 
+    status } = req.body;
+
+  try {
+    const customer = await Schedule.findOneAndUpdate(
+      { cusID, 'schedules.scheduleID': scheduleID },
+      {
+        $set: {
+          'schedules.$.price': price,
+          'schedules.$.status': status,
+        },
+      },
+      { new: true }
+    );
+
+    if (!customer) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    res.status(200).json(customer);
+  } catch (error) {
+    console.error("Error updating schedule:", error.message);
+    res.status(400).json({ message: "Invalid data error" });
+  }
+}

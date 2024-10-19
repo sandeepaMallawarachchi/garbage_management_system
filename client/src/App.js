@@ -11,21 +11,27 @@ import Home from './pages/Home';
 import WasteSchedule from './pages/WasteSchedule';
 import AllSchedules from './pages/AllSchedules';
 import WasteLevels from './pages/WasteLevels';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Header />
+    <div className="flex flex-col min-h-screen">
+      <BrowserRouter>
+        <Header />
+        <main className="flex-grow">
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/wasteSchedule' element={<WasteSchedule />} />
+            <Route path='/allSchedules' element={<AllSchedules />} />
+            <Route path='/wasteLevels' element={<WasteLevels />} />
 
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/wasteSchedule' element={<WasteSchedule />} />
-        <Route path='/allSchedules' element={<AllSchedules />} />
-        <Route path='/wasteLevels' element={<WasteLevels />} />
-      </Routes>
-
-      <FooterComponent />
-    </BrowserRouter>
+            {/* admin routes */}
+            <Route path='/admin/dashboard' element={<AdminDashboard/>} />
+          </Routes>
+        </main>
+        <FooterComponent />
+      </BrowserRouter>
+    </div>
   );
 }
 
