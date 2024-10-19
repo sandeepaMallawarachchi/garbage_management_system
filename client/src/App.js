@@ -1,5 +1,5 @@
 import './index.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import React from 'react';
 
 //header and footer
@@ -13,25 +13,36 @@ import AllSchedules from './pages/AllSchedules';
 import WasteLevels from './pages/WasteLevels';
 import AdminDashboard from './pages/AdminDashboard';
 
-function App() {
+
+const Layout = () => {
+  const location = useLocation();
+  const adminRoutes = ['/admin/dashboard'];
+
   return (
     <div className="flex flex-col min-h-screen">
-      <BrowserRouter>
-        <Header />
-        <main className="flex-grow">
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/wasteSchedule' element={<WasteSchedule />} />
-            <Route path='/allSchedules' element={<AllSchedules />} />
-            <Route path='/wasteLevels' element={<WasteLevels />} />
+      <Header />
+      <main className="flex-grow">
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/wasteSchedule' element={<WasteSchedule />} />
+          <Route path='/allSchedules' element={<AllSchedules />} />
+          <Route path='/wasteLevels' element={<WasteLevels />} />
 
-            {/* admin routes */}
-            <Route path='/admin/dashboard' element={<AdminDashboard/>} />
-          </Routes>
-        </main>
-        <FooterComponent />
-      </BrowserRouter>
+          {/* admin routes */}
+          <Route path='/admin/dashboard' element={<AdminDashboard />} />
+        </Routes>
+      </main>
+
+      {!adminRoutes.includes(location.pathname) && <FooterComponent />}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Layout /> 
+    </BrowserRouter>
   );
 }
 
