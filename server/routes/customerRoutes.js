@@ -24,13 +24,19 @@ router.post("/addSchedule/:cusID", customerController.scheduleCollection);
 //get all schedule route
 router.get("/getAllSchedules/:cusID", customerController.getAllSchedulesById);
 
+//get all schedules
+router.get("/get/all", customerController.getAllSchedules);
+
 //get a schedule route
 router.get("/getSchedule/:cusID/:scheduleID", customerController.getScheduleById);
 
 //update schedule route
 router.put("/updateSchedule/:cusID/:scheduleID", customerController.updateSchedule);
 
-//delte schedule route
+router.put("/accepted/:cusID/:scheduleID", customerController.acceptSchedule);
+router.put("/rejected/:cusID/:scheduleID", customerController.rejectSchedule)
+
+//delete schedule route
 router.delete("/deleteSchedule/:cusID/:scheduleID", customerController.deleteSchedule);
 
 module.exports = router;

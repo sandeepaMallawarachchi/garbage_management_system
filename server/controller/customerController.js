@@ -167,6 +167,19 @@ exports.getAllSchedulesById = async (req, res) => {
   }
 };
 
+//Get all schedules
+exports.getAllSchedules = async (req, res) => {
+  try {
+    const schedules = await Schedule.find();
+    if (!schedules) {
+      return res.status(404).json({message: "No schedules exists"})
+    }
+    res.status(200).json(schedules);
+  } catch (error) {
+    res.status(500).json({message: "Server error"})
+  }
+}
+
 // Get schedule by cusID and scheduleID
 exports.getScheduleById = async (req, res) => {
   const { cusID, scheduleID } = req.params;
@@ -277,3 +290,46 @@ exports.setPrice_Status = async (req, res) => {
     res.status(400).json({ message: "Invalid data error" });
   }
 }
+
+// New route handlers for accepting and rejecting schedules
+exports.acceptSchedule = async (req, res) => {
+  const { cusID, scheduleID } = req.params;
+  console.log('accept')
+  try {
+    const customer = await Schedule.findOneAndUpdate(
+      { cusID, 'schedules.scheduleID': scheduleID },
+      { $set: { 'schedules.$.status': 'accepted' } },
+      { new: true }
+    );
+
+    if (!customer) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    res.status(200).json(customer);
+  } catch (error) {
+    console.error("Error accepting schedule:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.rejectSchedule = async (req, res) => {
+  const { cusID, scheduleID } = req.params;
+  console.log('reject')
+  try {
+    const customer = await Schedule.findOneAndUpdate(
+      { cusID, 'schedules.scheduleID': scheduleID },
+      { $set: { 'schedules.$.status': 'rejected' } },
+      { new: true }
+    );
+
+    if (!customer) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    res.status(200).json(customer);
+  } catch (error) {
+    console.error("Error rejecting schedule:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

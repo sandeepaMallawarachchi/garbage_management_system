@@ -2,7 +2,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const reportSchema = new Schema({
-    wasteType: {
+    mostusedType: {
+        type: String,
+        required: true,
+    },
+    mostusedTypeWeight: {
+        type: String,
+        required: true,
+    },
+    leastusedType: {
+        type: String,
+        required: true,
+    },
+    leastusedTypeWeight: {
         type: String,
         required: true,
     },
@@ -10,11 +22,7 @@ const reportSchema = new Schema({
         type: String,
         required: true,
     },
-    address: {
-        type: String,
-        required: true,
-    },
-    price: {
+    income: {
         type: String,
         required: true,
     }
