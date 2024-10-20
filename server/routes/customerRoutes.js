@@ -45,4 +45,7 @@ router.delete("/deleteSchedule/:cusID/:scheduleID", customerController.deleteSch
 //get waste levels route
 router.get("/getWasteLevels/:cusID", customerController.getWasteLevels);
 
+//get accepted schedules route
+router.get("/getAcceptedSchedules", customerController.acceptSchedule);
+
 module.exports = router;
