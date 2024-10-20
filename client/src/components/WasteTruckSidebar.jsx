@@ -21,7 +21,7 @@ const WasteTruckSidebar = () => {
           <Sidebar.Item as={Link} to="/truck/qrcode" icon={HiQrcode}>
             QR code scanner
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiLogout} className="mt-[19rem]">
+          <Sidebar.Item as={Link} to="/" icon={HiLogout} className="mt-[19rem]">
             Sign Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>
