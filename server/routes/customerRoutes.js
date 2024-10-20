@@ -22,7 +22,7 @@ router.get('/getCustomer/:cusID', customerController.getCustomerById);
 router.get('/getAllCustomers', customerController.getAllCustomers);
 
 //delete customer route
-router.get('/deleteCustomer/:cusID', customerController.deleteCustomer)
+router.delete('/deleteCustomer/:cusID', customerController.deleteCustomer)
 
 // PayHere notify route
 router.post('/notify', paymentController.handlePayHereNotification);
@@ -42,8 +42,8 @@ router.get("/getSchedule/:cusID/:scheduleID", customerController.getScheduleById
 //update schedule route
 router.put("/updateSchedule/:cusID/:scheduleID", customerController.updateSchedule);
 
-router.put("/accepted/:cusID/:scheduleID", customerController.acceptSchedule);
-router.put("/rejected/:cusID/:scheduleID", customerController.rejectSchedule)
+router.put("/accepted/:cusID/:scheduleID", customerController.acceptSchedules);
+router.put("/rejected/:cusID/:scheduleID", customerController.rejectSchedule);
 
 //delete schedule route
 router.delete("/deleteSchedule/:cusID/:scheduleID", customerController.deleteSchedule);
