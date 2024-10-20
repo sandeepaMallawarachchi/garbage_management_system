@@ -172,11 +172,11 @@ exports.getAllSchedules = async (req, res) => {
   try {
     const schedules = await Schedule.find();
     if (!schedules) {
-      return res.status(404).json({message: "No schedules exists"})
+      return res.status(404).json({ message: "No schedules exists" })
     }
     res.status(200).json(schedules);
   } catch (error) {
-    res.status(500).json({message: "Server error"})
+    res.status(500).json({ message: "Server error" })
   }
 }
 
@@ -264,8 +264,8 @@ exports.deleteSchedule = async (req, res) => {
 //update price & status
 exports.setPrice_Status = async (req, res) => {
   const { cusID, scheduleID } = req.params;
-  const { 
-    price, 
+  const {
+    price,
     status } = req.body;
 
   try {
@@ -331,5 +331,90 @@ exports.rejectSchedule = async (req, res) => {
   } catch (error) {
     console.error("Error rejecting schedule:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+//get waste levels
+exports.getWasteLevels = async (req, res) => {
+  const { cusID } = req.params;
+
+  try {
+    const customer = await Schedule.findOne({ cusID });
+
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    const wasteLevels = {
+      organic: 0,
+      recyclable: 0,
+      eWaste: 0,
+    };
+
+    customer.schedules.forEach(schedule => {
+      const { wasteType, amount } = schedule;
+
+      if (wasteType === 'organic') {
+        wasteLevels.organic += parseInt(amount, 10) || 0;
+      } else if (wasteType === 'recyclable') {
+        wasteLevels.recyclable += [...amount].reduce((sum, char) => sum + parseInt(char, 10), 0);
+      } else if (wasteType === 'ewaste') {
+        wasteLevels.eWaste += parseInt(amount, 10) || 0;
+      }
+    });
+
+    res.status(200).json(wasteLevels);
+  } catch (error) {
+    console.error('Error fetching waste levels:', error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Get accepted schedules
+exports.acceptSchedule = async (req, res) => {
+  try {
+    const acceptedSchedules = await Schedule.find({ 'schedules.status': 'accepted' });
+
+    let organicWaste = 0;
+    let recyclableWaste = 0;
+    let eWaste = 0;
+    const scheduleDetails = [];
+
+    acceptedSchedules.forEach((scheduleDoc) => {
+      scheduleDoc.schedules.forEach((schedule) => {
+        if (schedule.status === 'accepted') {
+          const amount = parseFloat(schedule.amount);
+          scheduleDetails.push({
+            scheduleID: schedule.scheduleID,
+            wasteType: schedule.wasteType,
+            address: schedule.address,
+            amount,
+            price: schedule.price,
+            date: schedule.date,
+            remarks: schedule.remarks,
+          });
+          switch (schedule.wasteType) {
+            case 'organic':
+              organicWaste += amount;
+              break;
+            case 'recyclable':
+              recyclableWaste += amount;
+              break;
+            case 'eWaste':
+              eWaste += amount;
+              break;
+          }
+        }
+      });
+    });
+
+    res.status(200).json({
+      organicWaste,
+      recyclableWaste,
+      eWaste,
+      scheduleDetails,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching waste levels', error });
   }
 };
