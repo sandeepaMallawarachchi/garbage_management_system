@@ -35,7 +35,6 @@ const AllSchedules = () => {
     }
   };
 
-
   const handleUpdate = (schedule) => {
     setSelectedSchedule(schedule);
     setIsModalOpen(true);
@@ -122,13 +121,21 @@ const AllSchedules = () => {
               <Table.Cell>{schedule.price} Rupees</Table.Cell>
               <Table.Cell>{schedule.status}</Table.Cell>
               <Table.Cell>
-                <a onClick={() => handleUpdate(schedule)} className="font-medium cursor-pointer">
-                  <HiPencil className="inline-block w-7 h-7 text-green-500" />
-                </a>
-                <a onClick={() => handleDelete(schedule.scheduleID)} className="font-medium ml-4 cursor-pointer">
-                  <HiTrash className="inline-block w-7 h-7 text-red-500" />
-                </a>
-                {schedule.paymentMethod !== 'cash' && (
+                {(schedule.status !== 'accepted' && schedule.status !== 'rejected') ? (
+                  <>
+                    <a onClick={() => handleUpdate(schedule)} className="font-medium cursor-pointer">
+                      <HiPencil className="inline-block w-7 h-7 text-green-500" />
+                    </a>
+                    <a onClick={() => handleDelete(schedule.scheduleID)} className="font-medium ml-4 cursor-pointer">
+                      <HiTrash className="inline-block w-7 h-7 text-red-500" />
+                    </a>
+                  </>
+                ) : (
+                  <span className="text-gray-400">No Actions</span>
+                )}
+
+                {schedule.paymentMethod === 'card' && 
+                (schedule.status === 'accepted' || schedule.status === 'pending') && (
                   <a
                     onClick={() => handlePay(schedule.scheduleID)}
                     className="font-medium bg-green-600 text-white p-2 px-3 rounded-2xl hover:bg-green-700 ml-4 cursor-pointer"
