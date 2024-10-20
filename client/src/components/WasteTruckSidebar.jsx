@@ -15,7 +15,7 @@ const WasteTruckSidebar = () => {
           <Sidebar.Item as={Link} to="/truck/dashboard" icon={HiChartPie}>
             Dashboard
           </Sidebar.Item>
-          <Sidebar.Item as={Link} to="/truck/requests" icon={HiInbox} label="3">
+          <Sidebar.Item as={Link} to="/truck/requests" icon={HiInbox}>
             Requests
           </Sidebar.Item>
           <Sidebar.Item as={Link} to="/truck/qrcode" icon={HiQrcode}>
