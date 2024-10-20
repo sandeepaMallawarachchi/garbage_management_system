@@ -55,7 +55,7 @@ const AllSchedules = () => {
 
   const handlePay = (id) => {
     const schedule = schedules.find((s) => s.scheduleID === id);
-    if (schedule.paymentMethod === 'Credit/Debit Card') {
+    if (schedule.paymentMethod === 'card') {
       const payment = {
         sandbox: true,
         merchant_id: '1228428',

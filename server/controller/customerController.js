@@ -410,7 +410,7 @@ exports.getWasteLevels = async (req, res) => {
       if (wasteType === 'organic') {
         wasteLevels.organic += parseInt(amount, 10) || 0;
       } else if (wasteType === 'recyclable') {
-        wasteLevels.recyclable += [...amount].reduce((sum, char) => sum + parseInt(char, 10), 0);
+        wasteLevels.recyclable += parseInt(amount, 10) || 0;
       } else if (wasteType === 'ewaste') {
         wasteLevels.eWaste += parseInt(amount, 10) || 0;
       }
