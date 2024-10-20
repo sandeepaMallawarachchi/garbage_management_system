@@ -16,6 +16,7 @@ const AuthModal = ({ isOpen, onClose }) => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isRegistering, setIsRegistering] = useState(false);
     const [isAdmin, setIsAdmin] = useState(null);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     // Validation patterns
@@ -66,7 +67,7 @@ const AuthModal = ({ isOpen, onClose }) => {
             setPhone("");
             setAddress("");
         } catch (error) {
-            alert("Registration failed! Please try again.");
+            setError('Error registering customer')
         }
     };
 
@@ -89,7 +90,7 @@ const AuthModal = ({ isOpen, onClose }) => {
             localStorage.setItem("cusID", cusID);
             onClose();
         } catch (error) {
-            alert("Login failed! Invalid email or password.");
+            setError('Invalid Credentials')
         }
     };
 
@@ -111,6 +112,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                 </button>
                 {isRegistering ? (
                     <form className="flex flex-col gap-4" onSubmit={handleRegister}>
+                        {error && (<p className="text-red-500">{error}</p>)}
                         <div>
                             <Label htmlFor="name" value="Your Name" />
                             <TextInput
@@ -209,6 +211,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                     </form>
                 ) : (
                     <form className="flex flex-col gap-4" onSubmit={sendData}>
+                        {error && (<p className="text-red-500">{error}</p>)}
                         <div>
                             <Label htmlFor="email" value="Your email" />
                             <TextInput
