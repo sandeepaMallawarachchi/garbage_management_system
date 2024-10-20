@@ -167,6 +167,19 @@ exports.getAllSchedulesById = async (req, res) => {
   }
 };
 
+//Get all schedules
+exports.getAllSchedules = async (req, res) => {
+  try {
+    const schedules = await Schedule.find();
+    if (!schedules) {
+      return res.status(404).json({message: "No schedules exists"})
+    }
+    res.status(200).json(schedules);
+  } catch (error) {
+    res.status(500).json({message: "Server error"})
+  }
+}
+
 // Get schedule by cusID and scheduleID
 exports.getScheduleById = async (req, res) => {
   const { cusID, scheduleID } = req.params;
@@ -248,40 +261,75 @@ exports.deleteSchedule = async (req, res) => {
   }
 };
 
-//get waste levels by cusID
-exports.getWasteLevels = async (req, res) => {
-  const { cusID } = req.params;
+//update price & status
+exports.setPrice_Status = async (req, res) => {
+  const { cusID, scheduleID } = req.params;
+  const { 
+    price, 
+    status } = req.body;
 
   try {
-    const customer = await Schedule.findOne({ cusID });
+    const customer = await Schedule.findOneAndUpdate(
+      { cusID, 'schedules.scheduleID': scheduleID },
+      {
+        $set: {
+          'schedules.$.price': price,
+          'schedules.$.status': status,
+        },
+      },
+      { new: true }
+    );
 
     if (!customer) {
-      return res.status(404).json({ message: "Customer not found" });
+      return res.status(404).json({ message: "Schedule not found" });
     }
 
-    const wasteLevels = {
-      organic: 0,
-      recyclable: 0,
-      eWaste: 0,
-    };
-
-    customer.schedules.forEach(schedule => {
-      const { wasteType, amount } = schedule;
-
-      if (wasteType === 'organic') {
-        wasteLevels.organic += parseInt(amount, 10) || 0;
-      } else if (wasteType === 'recyclable') {
-        wasteLevels.recyclable += [...amount].reduce((sum, char) => sum + parseInt(char, 10), 0);
-      } else if (wasteType === 'ewaste') {
-        wasteLevels.eWaste += parseInt(amount, 10) || 0;
-      }
-    });
-
-    res.status(200).json(wasteLevels);
+    res.status(200).json(customer);
   } catch (error) {
-    console.error('Error fetching waste levels:', error);
+    console.error("Error updating schedule:", error.message);
+    res.status(400).json({ message: "Invalid data error" });
+  }
+}
+
+// New route handlers for accepting and rejecting schedules
+exports.acceptSchedule = async (req, res) => {
+  const { cusID, scheduleID } = req.params;
+  console.log('accept')
+  try {
+    const customer = await Schedule.findOneAndUpdate(
+      { cusID, 'schedules.scheduleID': scheduleID },
+      { $set: { 'schedules.$.status': 'accepted' } },
+      { new: true }
+    );
+
+    if (!customer) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    res.status(200).json(customer);
+  } catch (error) {
+    console.error("Error accepting schedule:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
+exports.rejectSchedule = async (req, res) => {
+  const { cusID, scheduleID } = req.params;
+  console.log('reject')
+  try {
+    const customer = await Schedule.findOneAndUpdate(
+      { cusID, 'schedules.scheduleID': scheduleID },
+      { $set: { 'schedules.$.status': 'rejected' } },
+      { new: true }
+    );
 
+    if (!customer) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    res.status(200).json(customer);
+  } catch (error) {
+    console.error("Error rejecting schedule:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
