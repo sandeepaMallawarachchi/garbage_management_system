@@ -23,6 +23,15 @@ exports.cusLogin = async (req, res) => {
     });
   }
 
+  // Check for waste truck driver credentials
+  const isDriver = email ==="driver@gmail.com" && password === "driver@123";
+  if (isDriver) {
+    return res.status(200).json({
+      message: "Login successful",
+      driver: 1,
+    });
+  }
+
   try {
     // Find the customer by email
     const customer = await Customer.findOne({ email });

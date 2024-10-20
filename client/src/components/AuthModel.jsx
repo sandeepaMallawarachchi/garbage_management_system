@@ -16,6 +16,7 @@ const AuthModal = ({ isOpen, onClose }) => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isRegistering, setIsRegistering] = useState(false);
     const [isAdmin, setIsAdmin] = useState(null);
+    const [isDriver, setIsDriver] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
@@ -80,9 +81,14 @@ const AuthModal = ({ isOpen, onClose }) => {
             });
             const isAdmin = res.data.admin;
             setIsAdmin(isAdmin);
+            const isDriver = res.data.driver;
+            setIsDriver(isDriver);
 
             if (isAdmin) {
                 navigate('/admin/dashboard');
+            }
+            if (isDriver) {
+                navigate('/truck/dashboard');
             }
 
             const cusID = res.data.customer.cusID;
