@@ -50,7 +50,7 @@ const WasteLevels = () => {
             <PDFDownloadLink
                 document={<WasteReportPDF wasteLevels={wasteLevels} />}
                 fileName="WasteReport.pdf"
-                style={{ textDecoration: 'none', color: '#fff', backgroundColor: '#057a55', padding: '10px 20px', borderRadius: '20px', display: 'inline-block', margin: '20px 650px 20px',}}
+                style={{ textDecoration: 'none', color: '#fff', backgroundColor: '#057a55', padding: '10px 20px', borderRadius: '20px', display: 'inline-block', margin: '20px 630px 20px',}}
             >
                 Download Waste Report
             </PDFDownloadLink>

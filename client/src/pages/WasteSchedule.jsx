@@ -6,8 +6,8 @@ import axios from 'axios';
 
 const WasteSchedule = () => {
     const [scheduleType, setScheduleType] = useState('general');
-    const [showPayment, setShowPayment] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState('');
+    const [showDate, setShowDate] = useState(false);
     const [date, setDate] = useState('');
     const [address, setAddress] = useState('');
     const navigate = useNavigate();
@@ -33,7 +33,7 @@ const WasteSchedule = () => {
     const handleScheduleChange = (e) => {
         const value = e.target.value;
         setScheduleType(value);
-        setShowPayment(value === 'special');
+        setShowDate(value === 'special');
 
         if (value === 'general') {
             setDate('');
@@ -87,7 +87,7 @@ const WasteSchedule = () => {
     const totalPayment = basePayment + additionalPayment;
 
     return (
-        <div className="flex items-center justify-between h-screen my-20">
+        <div className="flex items-center justify-between h-screen my-10">
             <div className="flex-1">
                 <img src={schedulebg} alt="schedule background" className="object-cover w-full h-full" />
             </div>
@@ -163,8 +163,7 @@ const WasteSchedule = () => {
                             </label>
                         </div>
                     </div>
-
-                    {showPayment && (
+                    {(showDate &&
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="date" value="Select Date" />
@@ -179,38 +178,34 @@ const WasteSchedule = () => {
                             />
                         </div>
                     )}
-
                     <p className="mb-2 text-green-600 text-2xl">Payment: {totalPayment} Rupees</p>
-                    {showPayment && (
-                        <>
-                            <div className="mb-2">
-                                <Label value="Select Payment Method" />
-                            </div>
-                            <div className="flex flex-col gap-4">
-                                <label htmlFor="card" className="flex items-center gap-2">
-                                    <Radio
-                                        id="card"
-                                        name="paymentMethod"
-                                        value="card"
-                                        checked={paymentMethod === 'card'}
-                                        onChange={() => setPaymentMethod('card')}
-                                    />
-                                    Credit/Debit Card
-                                </label>
 
-                                <label htmlFor="cash" className="flex items-center gap-2">
-                                    <Radio
-                                        id="cash"
-                                        name="paymentMethod"
-                                        value="cash"
-                                        checked={paymentMethod === 'cash'}
-                                        onChange={() => setPaymentMethod('cash')}
-                                    />
-                                    Cash on Visit
-                                </label>
-                            </div>
-                        </>
-                    )}
+                    <div className="mb-2">
+                        <Label value="Select Payment Method" />
+                    </div>
+                    <div className="flex flex-col gap-4">
+                        <label htmlFor="card" className="flex items-center gap-2">
+                            <Radio
+                                id="card"
+                                name="paymentMethod"
+                                value="card"
+                                checked={paymentMethod === 'card'}
+                                onChange={() => setPaymentMethod('card')}
+                            />
+                            Credit/Debit Card
+                        </label>
+
+                        <label htmlFor="cash" className="flex items-center gap-2">
+                            <Radio
+                                id="cash"
+                                name="paymentMethod"
+                                value="cash"
+                                checked={paymentMethod === 'cash'}
+                                onChange={() => setPaymentMethod('cash')}
+                            />
+                            Cash on Visit
+                        </label>
+                    </div>
 
                     <Button
                         type="submit"

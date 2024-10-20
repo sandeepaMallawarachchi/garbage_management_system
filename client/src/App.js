@@ -27,13 +27,13 @@ const Layout = () => {
           <Routes>
 
             {/* user routes */}
-            <Route path='/' element={<Home />} />
-            <Route path='/wasteSchedule' element={<WasteSchedule />} />
-            <Route path='/allSchedules' element={<AllSchedules />} />
-            <Route path='/wasteLevels' element={<WasteLevels />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/wasteSchedule" element={<WasteSchedule />} />
+            <Route path="/allSchedules" element={<AllSchedules />} />
+            <Route path="/wasteLevels" element={<WasteLevels />} />
 
             {/* admin routes */}
-            <Route path='/admin/*' element={<AdminDashboard />} />
+            <Route path="/admin/*" element={<AdminDashboard />} />
 
           </Routes>
         </div>
