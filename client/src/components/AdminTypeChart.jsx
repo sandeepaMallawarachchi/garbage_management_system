@@ -49,7 +49,8 @@ const WasteTypeChart = () => {
           {
             label: 'Count of Waste Types',
             data: Object.values(wasteData),
-            backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#f44336'], // Different colors for bars
+            backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#f44336'], // You can add more colors if you have more waste types
+            borderWidth: 1,
           },
         ],
       }
@@ -65,12 +66,21 @@ const WasteTypeChart = () => {
         display: true,
         text: 'Waste Type Distribution',
       },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            const label = context.label || '';
+            const value = context.raw || 0; // Get the raw data value
+            return `${label}: ${value}`; // Return custom label with value
+          }
+        }
+      }
     },
   };
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">Waste Type Distribution</h2>
+      <h2 className="text-xl font-bold mb-4 text-green-600">Waste Type Distribution</h2>
       {wasteData ? (
         <Bar data={chartData} options={chartOptions} />
       ) : (

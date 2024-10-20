@@ -30,6 +30,7 @@ const AdminUsers = () => {
 
   return (
     <div className="overflow-x-auto">
+      <h1 className="text-xl font-bold mb-4 text-green-600">Users Database</h1>
       {error && <p>{error}</p>}
       <Table>
         <Table.Head>

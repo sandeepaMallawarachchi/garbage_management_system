@@ -56,7 +56,7 @@ export function FetchReports() {
   return (
     <div className="flex">
       <div className="overflow-x-auto w-1/2">
-        <h1 className="text-xl font-bold mb-4">Reports</h1>
+        <h1 className="text-xl font-bold mb-4 text-green-600">Reports</h1>
         <Table>
           <Table.Head>
             <Table.HeadCell>Report ID</Table.HeadCell>
