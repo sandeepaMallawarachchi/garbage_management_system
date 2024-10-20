@@ -14,6 +14,15 @@ exports.cusLogin = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
+  // Check for admin credentials
+  const isAdmin = email === "admin@gmail.com" && password === "admin@123";
+  if (isAdmin) {
+    return res.status(200).json({
+      message: "Login successful",
+      admin: 1,
+    });
+  }
+
   try {
     // Find the customer by email
     const customer = await Customer.findOne({ email });

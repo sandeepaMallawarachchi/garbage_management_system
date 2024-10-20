@@ -24,7 +24,7 @@ const AdminSidebar = () => {
           <Sidebar.Item as={Link} to="/admin/reports" icon={HiDocumentReport}>
             Reports
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiLogout} className="mt-[19rem]">
+          <Sidebar.Item as={Link} to="/" icon={HiLogout} className="mt-[19rem]">
             Sign Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>

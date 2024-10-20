@@ -15,6 +15,7 @@ const AuthModal = ({ isOpen, onClose }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isRegistering, setIsRegistering] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(null);
     const navigate = useNavigate();
 
     // Validation patterns
@@ -76,6 +77,13 @@ const AuthModal = ({ isOpen, onClose }) => {
                 email,
                 password,
             });
+            const isAdmin = res.data.admin;
+            setIsAdmin(isAdmin);
+
+            if (isAdmin) {
+                navigate('/admin/dashboard');
+            }
+
             const cusID = res.data.customer.cusID;
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("cusID", cusID);
