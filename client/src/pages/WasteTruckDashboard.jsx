@@ -14,7 +14,7 @@ const WasteTruckDashboard = () => {
             {
                 label: 'Accepted Schedules',
                 data: [0, 0, 0],
-                backgroundColor: ['rgba(75, 192, 75, 0.2)', 'rgba(75, 192, 75, 0.2)', 'rgba(75, 192, 75, 0.2)'],
+                backgroundColor: ['rgba(75, 192, 75, 1)', 'rgba(75, 192, 75, 1)', 'rgba(75, 192, 75, 1)'],
                 borderColor: ['rgba(75, 192, 75, 1)', 'rgba(75, 192, 75, 1)', 'rgba(75, 192, 75, 1)'],
                 borderWidth: 1,
             },
@@ -39,7 +39,7 @@ const WasteTruckDashboard = () => {
                         {
                             label: 'Accepted Schedules',
                             data: [organicCount, recyclableCount, ewasteCount],
-                            bbackgroundColor: ['rgba(75, 192, 75, 0.2)', 'rgba(75, 192, 75, 0.2)', 'rgba(75, 192, 75, 0.2)'],
+                            bbackgroundColor: ['rgba(75, 192, 75, 1)', 'rgba(75, 192, 75, 1)', 'rgba(75, 192, 75, 1)'],
                             borderColor: ['rgba(75, 192, 75, 1)', 'rgba(75, 192, 75, 1)', 'rgba(75, 192, 75, 1)'],
                             borderWidth: 1,
                         },
