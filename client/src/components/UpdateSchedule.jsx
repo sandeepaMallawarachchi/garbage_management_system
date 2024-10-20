@@ -65,7 +65,7 @@ export function UpdateSchedule() {
 
   return (
     <div className="overflow-x-auto">
-      <h1 className="text-xl font-bold mb-4">Pending Schedules</h1>
+      <h1 className="text-xl font-bold mb-4 text-green-600">Pending Schedules</h1>
       <Table>
         <Table.Head>
           <Table.HeadCell>Schedule ID</Table.HeadCell>
