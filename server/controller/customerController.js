@@ -100,10 +100,10 @@ exports.getAllCustomers = async (req, res) => {
 
 //delete user
 exports.deleteCustomer = async (req, res) => {
-    const { id } = req.params;
+    const { cusID } = req.params;
 
     try {
-        const customer = await Customer.findByIdAndDelete(id);
+        const customer = await Customer.deleteOne({ cusID: cusID });
 
         if (!customer) {
             return res.status(404).json({ message: "Customer not found" });
