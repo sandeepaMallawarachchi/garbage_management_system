@@ -1,7 +1,7 @@
 import "./index.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import AdminSidebar from "./components/AdminSidebar";
 import React from "react";
-import FeeManage from "./pages/feemanage";
 
 //header and footer
 import Header from "./components/Header";
@@ -17,7 +17,6 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/feemanage" element={<FeeManage />} />
       </Routes>
 
       <FooterComponent />
