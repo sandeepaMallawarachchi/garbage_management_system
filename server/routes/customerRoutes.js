@@ -15,8 +15,14 @@ router.get("/dashboard", authMiddleware, (req, res) => {
 //register route
 router.post("/register", customerController.registerCustomer);
 
-//get customer by id
-router.get('/getCustomer/:cusID', customerController.getCustomerById)
+//get customer by id route
+router.get('/getCustomer/:cusID', customerController.getCustomerById);
+
+//get all customers route
+router.get('/getAllCustomers', customerController.getAllCustomers);
+
+//delete customer route
+router.get('/deleteCustomer/:cusID', customerController.deleteCustomer)
 
 // PayHere notify route
 router.post('/notify', paymentController.handlePayHereNotification);

@@ -82,6 +82,41 @@ exports.getCustomerById = async (req, res) => {
   }
 };
 
+//get all customers
+exports.getAllCustomers = async (req, res) => {
+
+  try {
+    const customer = await Customer.find();
+
+    if (!customer) {
+      return res.status(404).json({ message: "Customers not found" });
+    }
+    res.status(200).json(customer);
+  } catch (error) {
+    console.error("Error fetching customers details:", error.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+//delete user
+exports.deleteCustomer = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const customer = await Customer.findByIdAndDelete(id);
+
+        if (!customer) {
+            return res.status(404).json({ message: "Customer not found" });
+        }
+
+        res.status(200).json({ message: "Customer deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting customer:", error.message);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+
 //register new customer
 exports.registerCustomer = async (req, res) => {
   try {
