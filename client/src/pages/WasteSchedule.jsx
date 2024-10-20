@@ -102,7 +102,7 @@ const WasteSchedule = () => {
                             <option value="">Select waste type</option>
                             <option value="organic">Organic</option>
                             <option value="recyclable">Recyclable</option>
-                            <option value="ewaste">E-waste</option>
+                            <option value="eWaste">E-waste</option>
                         </Select>
                     </div>
 
