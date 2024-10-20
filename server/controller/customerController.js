@@ -231,6 +231,8 @@ exports.updateSchedule = async (req, res) => {
     paymentMethod,
   } = req.body;
 
+  console.log(date)
+
   try {
     const customer = await Schedule.findOneAndUpdate(
       { cusID, 'schedules.scheduleID': scheduleID },
@@ -309,14 +311,21 @@ exports.setPrice_Status = async (req, res) => {
   }
 }
 
-// New route handlers for accepting and rejecting schedules
-exports.acceptSchedule = async (req, res) => {
+exports.acceptSchedules = async (req, res) => {
   const { cusID, scheduleID } = req.params;
-  console.log('accept')
+  const { date } = req.body;
+
+  console.log(`Accepting schedule: ${scheduleID} for customer: ${cusID} with date: ${date}`);
+
   try {
     const customer = await Schedule.findOneAndUpdate(
       { cusID, 'schedules.scheduleID': scheduleID },
-      { $set: { 'schedules.$.status': 'accepted' } },
+      { 
+        $set: { 
+          'schedules.$.status': 'accepted',
+          'schedules.$.date': date ? new Date(date) : null, 
+        } 
+      },
       { new: true }
     );
 
@@ -333,11 +342,19 @@ exports.acceptSchedule = async (req, res) => {
 
 exports.rejectSchedule = async (req, res) => {
   const { cusID, scheduleID } = req.params;
-  console.log('reject')
+  const { date } = req.body;
+
+  console.log(`Rejecting schedule: ${scheduleID} for customer: ${cusID} with date: ${date}`);
+
   try {
     const customer = await Schedule.findOneAndUpdate(
       { cusID, 'schedules.scheduleID': scheduleID },
-      { $set: { 'schedules.$.status': 'rejected' } },
+      { 
+        $set: { 
+          'schedules.$.status': 'rejected',
+          'schedules.$.date': date ? new Date(date) : null,
+        } 
+      },
       { new: true }
     );
 

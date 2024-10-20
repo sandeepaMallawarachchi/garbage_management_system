@@ -36,8 +36,8 @@ router.get("/getSchedule/:cusID/:scheduleID", customerController.getScheduleById
 //update schedule route
 router.put("/updateSchedule/:cusID/:scheduleID", customerController.updateSchedule);
 
-router.put("/accepted/:cusID/:scheduleID", customerController.acceptSchedule);
-router.put("/rejected/:cusID/:scheduleID", customerController.rejectSchedule)
+router.put("/accepted/:cusID/:scheduleID", customerController.acceptSchedules);
+router.put("/rejected/:cusID/:scheduleID", customerController.rejectSchedule);
 
 //delete schedule route
 router.delete("/deleteSchedule/:cusID/:scheduleID", customerController.deleteSchedule);
