@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const AdminSidebar = () => {
   return (
     <Sidebar aria-label="" className="m-10 h-[40rem]">
-      <Sidebar.Logo href="#" img={logo} imgAlt="*greenbin logo">
+      <Sidebar.Logo href="#" img={logo} imgAlt="*greenbin logo" className="text-green-600">
         Green Bin
       </Sidebar.Logo>
       <Sidebar.Items>
