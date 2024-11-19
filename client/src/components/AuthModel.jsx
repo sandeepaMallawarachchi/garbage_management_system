@@ -17,7 +17,6 @@ const AuthModal = ({ isOpen, onClose }) => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [isAdmin, setIsAdmin] = useState(null);
     const [isDriver, setIsDriver] = useState(null);
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     // Validation patterns
@@ -68,7 +67,8 @@ const AuthModal = ({ isOpen, onClose }) => {
             setPhone("");
             setAddress("");
         } catch (error) {
-            setError('Error registering customer')
+            console.log('Error registering customer');
+            alert('Error registering customer');
         }
     };
 
@@ -95,8 +95,10 @@ const AuthModal = ({ isOpen, onClose }) => {
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("cusID", cusID);
             onClose();
+            window.location.reload();
         } catch (error) {
-            setError('Invalid Credentials')
+            console.log('Invalid Credentials');
+            alert('Invalid Credentials');
         }
     };
 
@@ -118,7 +120,6 @@ const AuthModal = ({ isOpen, onClose }) => {
                 </button>
                 {isRegistering ? (
                     <form className="flex flex-col gap-4" onSubmit={handleRegister}>
-                        {error && (<p className="text-red-500">{error}</p>)}
                         <div>
                             <Label htmlFor="name" value="Your Name" />
                             <TextInput
@@ -217,7 +218,6 @@ const AuthModal = ({ isOpen, onClose }) => {
                     </form>
                 ) : (
                     <form className="flex flex-col gap-4" onSubmit={sendData}>
-                        {error && (<p className="text-red-500">{error}</p>)}
                         <div>
                             <Label htmlFor="email" value="Your email" />
                             <TextInput

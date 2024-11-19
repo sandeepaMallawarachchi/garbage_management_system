@@ -23,7 +23,7 @@ const Home = () => {
                             we offer both general and special collection services to suit your needs. Our goal is to make waste disposal easy, efficient,
                             and eco-friendly. Keep your environment clean with just a few clicks!
                         </p>
-                        <button className='bg-green-600 hover:bg-gray-700 text-white p-2 px-4 rounded-full'>
+                        <button className='bg-green-600 hover:bg-green-700 text-white p-2 px-4 rounded-full'>
                             Get Started
                         </button>
                     </div>
