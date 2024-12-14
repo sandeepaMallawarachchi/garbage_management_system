@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from "flowbite-react";
 import mainImg from '../images/hero.jpg';
 import card1 from '../images/card1.png';
@@ -7,9 +7,33 @@ import card3 from '../images/card3.png';
 import cardbg1 from '../images/cardbg1.png';
 import cardbg2 from '../images/cardbg2.png';
 import cardbg3 from '../images/cardbg3.png';
-import { Link } from 'react-router-dom';
+import bggif from '../images/bggif.gif';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthModel from "../components/AuthModel";
 
 const Home = () => {
+
+    const token = localStorage.getItem('token');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const handleGetStarted = () => {
+        if (!token) {
+            handleOpenModal();
+        }
+        else {
+            navigate('/wasteSchedule')
+        }
+    }
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <div>
             {/* main */}
@@ -23,13 +47,16 @@ const Home = () => {
                             we offer both general and special collection services to suit your needs. Our goal is to make waste disposal easy, efficient,
                             and eco-friendly. Keep your environment clean with just a few clicks!
                         </p>
-                        <button className='bg-green-600 hover:bg-green-700 text-white p-2 px-4 rounded-full'>
+                        <button
+                            onClick={() => handleGetStarted()}
+                            className='bg-green-600 hover:bg-green-700 text-white p-2 px-4 rounded-full'
+                        >
                             Get Started
                         </button>
                     </div>
 
                     <div className="flex-1">
-                        <img src={mainImg} alt="main img" className="w-full h-auto rounded-lg" />
+                        <img src={mainImg} alt="main img" className="w-full h-auto" />
                     </div>
                 </div>
             </div>
@@ -74,6 +101,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            <AuthModel isOpen={isModalOpen} onClose={handleCloseModal} />
         </div>
     );
 }

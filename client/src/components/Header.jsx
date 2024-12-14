@@ -27,9 +27,11 @@ const Header = () => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('cusID');
-        setIsLoggedIn(false);
+        if (window.confirm('Are you sure you want to log out?')) {
+            localStorage.clear();
+            setIsLoggedIn(false);
+            window.location.reload();
+        }
     };
 
     return (
@@ -44,7 +46,7 @@ const Header = () => {
                     {isLoggedIn ? (
                         <Dropdown inline label={<img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />}>
                             <Dropdown.Item>
-                                <span onClick={handleLogout} className="cursor-pointer">Logout</span>
+                                <span onClick={handleLogout} className="cursor-pointer text-red-600 font-medium">Logout</span>
                             </Dropdown.Item>
                         </Dropdown>
                     ) : (
