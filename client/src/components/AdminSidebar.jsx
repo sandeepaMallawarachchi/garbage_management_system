@@ -1,12 +1,12 @@
 import React from "react";
 import { Sidebar } from "flowbite-react";
 import logo from '../images/logo.png';
-import { HiDocumentReport, HiChartPie, HiInbox, HiUser, HiLogout } from "react-icons/hi";
+import { HiDocumentReport, HiChartPie, HiInbox, HiUser, HiLogout, HiArrowUp } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 const AdminSidebar = () => {
   return (
-    <Sidebar aria-label="" className="m-10 h-[40rem]">
+    <Sidebar aria-label="" className="m-10">
       <Sidebar.Logo href="#" img={logo} imgAlt="*greenbin logo" className="text-green-600">
         Green Bin
       </Sidebar.Logo>
@@ -14,6 +14,9 @@ const AdminSidebar = () => {
         <Sidebar.ItemGroup>
           <Sidebar.Item as={Link} to="/admin/dashboard/content" icon={HiChartPie}>
             Dashboard
+          </Sidebar.Item>
+          <Sidebar.Item as={Link} to="/admin/priceAmount" icon={HiArrowUp}>
+            Update Price & Amount
           </Sidebar.Item>
           <Sidebar.Item as={Link} to="/admin/requests" icon={HiInbox} label="3">
             Requests

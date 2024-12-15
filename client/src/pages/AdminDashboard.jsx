@@ -4,6 +4,7 @@ import AdminDashboardContent from './AdminDashboardContent.jsx';
 import AdminReports from './AdminReports.jsx';
 import AdminRequests from './AdminRequests.jsx';
 import AdminUsers from './AdminUsers.jsx';
+import UpdatePriceAndAmount from './UpdatePriceAndAmount.jsx';
 
 const AdminDashboard = () => {
   return (
@@ -15,6 +16,7 @@ const AdminDashboard = () => {
           <Route path="/requests" element={<AdminRequests />} />
           <Route path="/users" element={<AdminUsers />} />
           <Route path="/reports" element={<AdminReports />} />
+          <Route path="/priceAmount" element={<UpdatePriceAndAmount />} />
         </Routes>
       </div>
     </div>

@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const Customer = require("../models/customerDetails");
 const Schedule = require("../models/collectionDetails");
+const PriceAndAmount = require("../models/PriceAndAmountDetails");
 
 //customer login
 exports.cusLogin = async (req, res) => {
@@ -24,7 +25,7 @@ exports.cusLogin = async (req, res) => {
   }
 
   // Check for waste truck driver credentials
-  const isDriver = email ==="driver@gmail.com" && password === "driver@123";
+  const isDriver = email === "driver@gmail.com" && password === "driver@123";
   if (isDriver) {
     return res.status(200).json({
       message: "Login successful",
@@ -100,20 +101,20 @@ exports.getAllCustomers = async (req, res) => {
 
 //delete user
 exports.deleteCustomer = async (req, res) => {
-    const { cusID } = req.params;
+  const { cusID } = req.params;
 
-    try {
-        const customer = await Customer.deleteOne({ cusID: cusID });
+  try {
+    const customer = await Customer.deleteOne({ cusID: cusID });
 
-        if (!customer) {
-            return res.status(404).json({ message: "Customer not found" });
-        }
-
-        res.status(200).json({ message: "Customer deleted successfully" });
-    } catch (error) {
-        console.error("Error deleting customer:", error.message);
-        res.status(500).json({ message: "Server error" });
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
     }
+
+    res.status(200).json({ message: "Customer deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting customer:", error.message);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 
@@ -355,11 +356,11 @@ exports.acceptSchedules = async (req, res) => {
   try {
     const customer = await Schedule.findOneAndUpdate(
       { cusID, 'schedules.scheduleID': scheduleID },
-      { 
-        $set: { 
+      {
+        $set: {
           'schedules.$.status': 'accepted',
-          'schedules.$.date': date ? new Date(date) : null, 
-        } 
+          'schedules.$.date': date ? new Date(date) : null,
+        }
       },
       { new: true }
     );
@@ -384,11 +385,11 @@ exports.rejectSchedule = async (req, res) => {
   try {
     const customer = await Schedule.findOneAndUpdate(
       { cusID, 'schedules.scheduleID': scheduleID },
-      { 
-        $set: { 
+      {
+        $set: {
           'schedules.$.status': 'rejected',
           'schedules.$.date': date ? new Date(date) : null,
-        } 
+        }
       },
       { new: true }
     );
@@ -486,5 +487,63 @@ exports.acceptSchedule = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching waste levels', error });
+  }
+};
+
+// Update price and amount based on schedule type or insert if not exists
+exports.updatePriceAndAmount = async (req, res) => {
+  const { scheduleType } = req.params;
+  const { price, amount } = req.body;
+
+  try {
+    const updatedData = {};
+    if (scheduleType === 'general') {
+      updatedData.genaralPrice = price;
+      updatedData.genaralAmount = amount;
+    } else if (scheduleType === 'special') {
+      updatedData.specialPrice = price;
+      updatedData.specialAmount = amount;
+    } else {
+      return res.status(400).json({ message: "Invalid schedule type" });
+    }
+
+    const result = await PriceAndAmount.findOneAndUpdate(
+      {},
+      { $set: updatedData },
+      { new: true, upsert: true }
+    );
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Get current price and amount
+exports.getPriceAndAmount = async (req, res) => {
+  const { scheduleType } = req.params;
+
+  try {
+    const schedule = await PriceAndAmount.findOne();
+
+    if (!schedule) {
+      return res.status(404).json({ message: "Price and amount data not found" });
+    }
+
+    if (scheduleType === 'general') {
+      return res.status(200).json({
+        price: schedule.genaralPrice,
+        amount: schedule.genaralAmount,
+      });
+    } else if (scheduleType === 'special') {
+      return res.status(200).json({
+        price: schedule.specialPrice,
+        amount: schedule.specialAmount,
+      });
+    } else {
+      return res.status(400).json({ message: "Invalid schedule type" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
   }
 };
