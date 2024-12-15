@@ -15,7 +15,7 @@ import WasteTruckRoutes from './pages/WasteTruckRoutes';
 const Layout = () => {
   const location = useLocation();
 
-  const adminRoutes = ["/admin/dashboard", "/admin/dashboard/content", "/admin/requests", "/admin/users", "/admin/reports"];
+  const adminRoutes = ["/admin/dashboard", "/admin/dashboard/content", "/admin/requests", "/admin/users", "/admin/reports, admin/priceAmount"];
   const truckRoutes = ["/truck/dashboard", "/truck/dashboard/content", "/truck/requests", "/truck/qrcode"];
 
   const isAdminRoute = adminRoutes.includes(location.pathname) || location.pathname.startsWith('/admin/');
