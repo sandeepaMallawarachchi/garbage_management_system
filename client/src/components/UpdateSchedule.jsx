@@ -102,6 +102,7 @@ export function UpdateSchedule() {
                     className="border border-gray-300 rounded py-1 px-2 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 ease-in-out w-36" 
                     aria-label="Update Date"
                     placeholder="Select Date"
+                    required
                   />
                 ) : (
                   new Date(schedule.date).toLocaleDateString()

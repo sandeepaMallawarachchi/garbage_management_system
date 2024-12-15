@@ -429,7 +429,7 @@ exports.getWasteLevels = async (req, res) => {
         wasteLevels.organic += parseInt(amount, 10) || 0;
       } else if (wasteType === 'recyclable') {
         wasteLevels.recyclable += parseInt(amount, 10) || 0;
-      } else if (wasteType === 'ewaste') {
+      } else if (wasteType === 'eWaste') {
         wasteLevels.eWaste += parseInt(amount, 10) || 0;
       }
     });

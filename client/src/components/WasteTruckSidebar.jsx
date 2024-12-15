@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const WasteTruckSidebar = () => {
   return (
-    <Sidebar aria-label="" className="m-10 h-[40rem]">
+    <Sidebar aria-label="" className="m-10">
       <Sidebar.Logo href="#" img={logo} imgAlt="*greenbin logo">
         Green Bin
       </Sidebar.Logo>

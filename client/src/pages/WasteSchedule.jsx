@@ -6,12 +6,29 @@ import axios from 'axios';
 
 const WasteSchedule = () => {
     const [scheduleType, setScheduleType] = useState('general');
+    const [amount, setAmount] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
     const [showDate, setShowDate] = useState(false);
     const [date, setDate] = useState('');
     const [address, setAddress] = useState('');
     const navigate = useNavigate();
     const cusID = localStorage.getItem("cusID");
+    const [price, setPrice] = useState('');
+    const [maxAmount, setMaxAmount] = useState('');
+
+    useEffect(() => {
+        const fetchScheduleDetails = async () => {
+            try {
+                const res = await axios.get(`http://localhost:4000/admin/getPriceAmount/${scheduleType}`);
+                setPrice(res.data.price || '');
+                setMaxAmount(res.data.amount || '');
+            } catch {
+                setPrice('');
+                setMaxAmount('');
+            }
+        };
+        fetchScheduleDetails();
+    }, [scheduleType]);
 
     useEffect(() => {
         if (!cusID) {
@@ -22,7 +39,7 @@ const WasteSchedule = () => {
                 try {
                     const response = await axios.get(`http://localhost:4000/customer/getCustomer/${cusID}`);
                     setAddress(response.data.address);
-                } catch (err) {
+                } catch {
                     console.log('Error fetching address data');
                 }
             };
@@ -34,7 +51,6 @@ const WasteSchedule = () => {
         const value = e.target.value;
         setScheduleType(value);
         setShowDate(value === 'special');
-
         if (value === 'general') {
             setDate('');
             setPaymentMethod('');
@@ -46,6 +62,11 @@ const WasteSchedule = () => {
 
         if (scheduleType === 'special' && !paymentMethod) {
             alert('Please select a payment method.');
+            return;
+        }
+
+        if (Number(amount) > Number(maxAmount)) {
+            alert(`Amount cannot exceed ${maxAmount} KG.`);
             return;
         }
 
@@ -77,68 +98,21 @@ const WasteSchedule = () => {
             const result = await response.json();
             alert('Successfully scheduled the collection');
         } catch (error) {
-            console.error('Error:', error);
-            alert('Error scheduling a collection! ');
+            alert('Error scheduling a collection!');
         }
-    }
+    };
 
-    const basePayment = 500;
-    const additionalPayment = scheduleType === 'special' ? 250 : 0;
-    const totalPayment = basePayment + additionalPayment;
+    const totalPayment = price;
 
     return (
         <div className="flex items-center justify-between h-screen my-10">
             <div className="flex-1">
                 <img src={schedulebg} alt="schedule background" className="object-cover w-full h-full" />
             </div>
-
             <div className="flex-1 p-8">
                 <form className="flex max-w-xl flex-col gap-4" onSubmit={handleForm}>
                     <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="type" value="Waste Type" />
-                        </div>
-                        <Select id="type" required shadow>
-                            <option value="">Select waste type</option>
-                            <option value="organic">Organic</option>
-                            <option value="recyclable">Recyclable</option>
-                            <option value="eWaste">E-waste</option>
-                        </Select>
-                    </div>
-
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="address" value="Address" />
-                        </div>
-                        <TextInput
-                            id="address"
-                            type="text"
-                            placeholder="Your address"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            required
-                            shadow
-                        />
-                    </div>
-
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="amount" value="Amount (KG)" />
-                        </div>
-                        <TextInput id="amount" type="text" placeholder="Amount of waste (Approximately)" required shadow />
-                    </div>
-
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="remarks" value="Remarks" />
-                        </div>
-                        <Textarea id="remarks" placeholder="Additional comments" shadow />
-                    </div>
-
-                    <div>
-                        <div className="mb-2 block">
-                            <Label value="Schedule Type" />
-                        </div>
+                        <Label value="Schedule Type" />
                         <div className="flex gap-4">
                             <label htmlFor="general" className="flex items-center gap-2">
                                 <Radio
@@ -150,7 +124,6 @@ const WasteSchedule = () => {
                                 />
                                 General Schedule
                             </label>
-
                             <label htmlFor="special" className="flex items-center gap-2">
                                 <Radio
                                     id="special"
@@ -163,11 +136,9 @@ const WasteSchedule = () => {
                             </label>
                         </div>
                     </div>
-                    {(showDate &&
+                    {showDate && (
                         <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="date" value="Select Date" />
-                            </div>
+                            <Label htmlFor="date" value="Select Date" />
                             <TextInput
                                 id="date"
                                 type="date"
@@ -179,10 +150,46 @@ const WasteSchedule = () => {
                         </div>
                     )}
                     <p className="mb-2 text-green-600 text-2xl">Payment: {totalPayment} Rupees</p>
-
-                    <div className="mb-2">
-                        <Label value="Select Payment Method" />
+                    <p className="mb-2 text-green-600 text-2xl">Max Amount: {maxAmount} KG</p>
+                    <div>
+                        <Label htmlFor="type" value="Waste Type" />
+                        <Select id="type" required shadow>
+                            <option value="">Select waste type</option>
+                            <option value="organic">Organic</option>
+                            <option value="recyclable">Recyclable</option>
+                            <option value="eWaste">E-waste</option>
+                        </Select>
                     </div>
+                    <div>
+                        <Label htmlFor="address" value="Address" />
+                        <TextInput
+                            id="address"
+                            type="text"
+                            placeholder="Your address"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            required
+                            shadow
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor="amount" value="Amount (KG)" />
+                        <TextInput
+                            id="amount"
+                            type="number"
+                            placeholder="Amount of waste (Approximately)"
+                            max={maxAmount}
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            required
+                            shadow
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor="remarks" value="Remarks" />
+                        <Textarea id="remarks" placeholder="Additional comments" shadow />
+                    </div>
+                    <Label value="Select Payment Method" />
                     <div className="flex flex-col gap-4">
                         <label htmlFor="card" className="flex items-center gap-2">
                             <Radio
@@ -194,7 +201,6 @@ const WasteSchedule = () => {
                             />
                             Credit/Debit Card
                         </label>
-
                         <label htmlFor="cash" className="flex items-center gap-2">
                             <Radio
                                 id="cash"
@@ -206,7 +212,6 @@ const WasteSchedule = () => {
                             Cash on Visit
                         </label>
                     </div>
-
                     <Button
                         type="submit"
                         className="mt-3 text-sm px-2 py-1 sm:px-4 sm:py-2 bg-green-600 hover:bg-green-700 rounded-full"
@@ -217,6 +222,6 @@ const WasteSchedule = () => {
             </div>
         </div>
     );
-}
+};
 
 export default WasteSchedule;
