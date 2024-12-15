@@ -4,10 +4,29 @@ import { Link, useLocation } from 'react-router-dom';
 import logo from '../images/logo.png';
 import avatar from '../images/avatar.png';
 import AuthModel from "./AuthModel";
+import axios from 'axios';
+import QRModal from './QRModal';
+import { HiQrcode } from "react-icons/hi";
 
 const Header = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+    const cusID = localStorage.getItem('cusID');
+    const [customer, setCustomer] = useState('');
+
+    useEffect(() => {
+        const fetchCustomer = async () => {
+            try {
+                const res = await axios.get(`http://localhost:4000/customer/getCustomer/${cusID}`);
+                setCustomer(res.data);
+            } catch (error) {
+                console.error('Error fetching customer:', error);
+            }
+        };
+
+        fetchCustomer();
+    }, [cusID]);
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -34,6 +53,14 @@ const Header = () => {
         }
     };
 
+    const handleOpenQRModal = () => {
+        setIsQRModalOpen(true);
+    };
+
+    const handleCloseQRModal = () => {
+        setIsQRModalOpen(false);
+    };
+
     return (
         <div className="sticky top-0 z-50 bg-white shadow-lg lg:pl-10 lg:pr-10">
             <Navbar fluid rounded>
@@ -44,11 +71,19 @@ const Header = () => {
 
                 <div className="flex md:order-2">
                     {isLoggedIn ? (
-                        <Dropdown inline label={<img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />}>
-                            <Dropdown.Item>
-                                <span onClick={handleLogout} className="cursor-pointer text-red-600 font-medium">Logout</span>
-                            </Dropdown.Item>
-                        </Dropdown>
+                        <div className='flex justify-between gap-5'>
+                            <HiQrcode onClick={handleOpenQRModal} size={32} className='text-green-500 hover:text-green-600 cursor-pointer' />
+                            <Dropdown inline label={
+                                <div className="flex items-center gap-2">
+                                    <img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
+                                    <span className="text-sm font-medium">{customer?.name}</span>
+                                </div>
+                            }>
+                                <Dropdown.Item>
+                                    <span onClick={handleLogout} className="cursor-pointer text-red-600 font-medium">Logout</span>
+                                </Dropdown.Item>
+                            </Dropdown>
+                        </div>
                     ) : (
                         <Button
                             onClick={handleOpenModal}
@@ -99,6 +134,7 @@ const Header = () => {
                 </Navbar.Collapse>
             </Navbar>
             <AuthModel isOpen={isModalOpen} onClose={handleCloseModal} />
+            {isQRModalOpen && <QRModal onClose={handleCloseQRModal} />}
         </div>
     );
 }

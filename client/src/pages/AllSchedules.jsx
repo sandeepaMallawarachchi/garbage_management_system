@@ -111,11 +111,20 @@ const AllSchedules = () => {
           <Table.HeadCell>Actions</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {schedules.map((schedule) => (
-            <Table.Row key={schedule.scheduleID} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+          {[...schedules].reverse().map((schedule) => (
+            <Table.Row
+              key={schedule.scheduleID}
+              className={
+                schedule.status === "accepted"
+                  ? "bg-green-100"
+                  : schedule.status === "rejected"
+                    ? "bg-red-100"
+                    : "bg-white dark:border-gray-700 dark:bg-gray-800"
+              }
+            >
               <Table.Cell>{schedule.scheduleType}</Table.Cell>
               <Table.Cell>{schedule.wasteType}</Table.Cell>
-              <Table.Cell>{formatDate(schedule.date)}</Table.Cell>
+              <Table.Cell>{schedule.date ? formatDate(schedule.date) : "Pending Date"}</Table.Cell>
               <Table.Cell>{schedule.remarks || '-'}</Table.Cell>
               <Table.Cell>{schedule.paymentMethod} payment</Table.Cell>
               <Table.Cell>{schedule.price} Rupees</Table.Cell>
@@ -134,15 +143,15 @@ const AllSchedules = () => {
                   <span className="text-gray-400">No Actions</span>
                 )}
 
-                {schedule.paymentMethod === 'card' && 
-                (schedule.status === 'accepted' || schedule.status === 'pending') && (
-                  <a
-                    onClick={() => handlePay(schedule.scheduleID)}
-                    className="font-medium bg-green-600 text-white p-2 px-3 rounded-2xl hover:bg-green-700 ml-4 cursor-pointer"
-                  >
-                    Pay
-                  </a>
-                )}
+                {schedule.paymentMethod === 'card' &&
+                  (schedule.status === 'accepted' || schedule.status === 'pending') && (
+                    <a
+                      onClick={() => handlePay(schedule.scheduleID)}
+                      className="font-medium bg-green-600 text-white p-2 px-3 rounded-2xl hover:bg-green-700 ml-4 cursor-pointer"
+                    >
+                      Pay
+                    </a>
+                  )}
               </Table.Cell>
             </Table.Row>
           ))}

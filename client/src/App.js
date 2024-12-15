@@ -11,6 +11,7 @@ import WasteLevels from './pages/WasteLevels';
 import AdminDashboard from './pages/AdminDashboard';
 import WasteTruckSidebar from './components/WasteTruckSidebar';
 import WasteTruckRoutes from './pages/WasteTruckRoutes';
+import QRDetails from './pages/QRDetails';
 
 const Layout = () => {
   const location = useLocation();
@@ -35,6 +36,7 @@ const Layout = () => {
             <Route path="/wasteLevels" element={<WasteLevels />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
             <Route path="/truck/*" element={<WasteTruckRoutes />} />
+            <Route path="/qrDetails/:cusID" element={<QRDetails />} />
           </Routes>
         </div>
       </main>
