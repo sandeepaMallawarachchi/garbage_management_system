@@ -13,6 +13,7 @@ import WasteTruckSidebar from './components/WasteTruckSidebar';
 import WasteTruckRoutes from './pages/WasteTruckRoutes';
 import QRDetails from './pages/QRDetails';
 import About from './pages/About';
+import SnowFlakes from './components/SnowFlakes';
 
 const Layout = () => {
   const location = useLocation();
@@ -43,6 +44,7 @@ const Layout = () => {
         </div>
       </main>
       {!isAdminRoute && !isTruckRoute && <FooterComponent />}
+      <SnowFlakes />
     </div>
   );
 }
