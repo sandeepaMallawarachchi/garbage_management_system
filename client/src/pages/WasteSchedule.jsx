@@ -31,21 +31,18 @@ const WasteSchedule = () => {
     }, [scheduleType]);
 
     useEffect(() => {
-        if (!cusID) {
-            alert("Customer ID not found, please login again.");
-            navigate("/login");
-        } else {
-            const fetchAddress = async () => {
-                try {
-                    const response = await axios.get(`http://localhost:4000/customer/getCustomer/${cusID}`);
-                    setAddress(response.data.address);
-                } catch {
-                    console.log('Error fetching address data');
-                }
-            };
-            fetchAddress();
-        }
-    }, [cusID, navigate]);
+
+        const fetchAddress = async () => {
+            try {
+                const response = await axios.get(`http://localhost:4000/customer/getCustomer/${cusID}`);
+                setAddress(response.data.address);
+            } catch {
+                console.log('Error fetching address data');
+            }
+        };
+        fetchAddress();
+
+    }, [cusID]);
 
     const handleScheduleChange = (e) => {
         const value = e.target.value;

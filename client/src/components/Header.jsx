@@ -102,21 +102,29 @@ const Header = () => {
                     >
                         Home
                     </Navbar.Link>
-                    <Dropdown
-                        label="Services"
-                        inline={true}
-                        className={`hover:text-green-600 w-64 text-sm sm:text-base ${location.pathname.startsWith("/allSchedules") ? "text-green-600" : ""}`}
-                    >
-                        <Dropdown.Item as={Link} to="/wasteSchedule">
-                            Schedule Waste Collection
-                        </Dropdown.Item>
-                        <Dropdown.Item as={Link} to="/allSchedules">
-                            All Schedules
-                        </Dropdown.Item>
-                        <Dropdown.Item as={Link} to="/wasteLevels">
-                            Waste Levels
-                        </Dropdown.Item>
-                    </Dropdown>
+
+                    {isLoggedIn ? (
+                        <Dropdown
+                            label="Services"
+                            inline={true}
+                            className={`hover:text-green-600 w-64 text-sm sm:text-base ${location.pathname.startsWith("/allSchedules") ? "text-green-600" : ""}`}
+                        >
+                            <Dropdown.Item as={Link} to="/wasteSchedule">
+                                Schedule Waste Collection
+                            </Dropdown.Item>
+                            <Dropdown.Item as={Link} to="/allSchedules">
+                                All Schedules
+                            </Dropdown.Item>
+                            <Dropdown.Item as={Link} to="/wasteLevels">
+                                Waste Levels
+                            </Dropdown.Item>
+                        </Dropdown>
+                    ) : (
+                        <span className="text-gray-400 text-sm sm:text-base cursor-not-allowed">
+                            Services (Login Required)
+                        </span>
+                    )}
+
                     <Navbar.Link
                         as={Link}
                         to="/about"
@@ -132,6 +140,7 @@ const Header = () => {
                         Contact
                     </Navbar.Link>
                 </Navbar.Collapse>
+
             </Navbar>
             <AuthModel isOpen={isModalOpen} onClose={handleCloseModal} />
             {isQRModalOpen && <QRModal onClose={handleCloseQRModal} />}
