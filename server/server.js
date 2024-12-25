@@ -14,11 +14,13 @@ app.use(express.json());
 const customerRouter = require('./routes/customerRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const reportRoutes = require('./routes/reportRoutes')
+const chatbotRoutes = require('./routes/chatbotRoutes');
 
 // Use routes
 app.use('/customer', customerRouter);
 app.use('/admin', adminRoutes);
 app.use('/report', reportRoutes);
+app.use('/chatbot', chatbotRoutes);
 
 // DB connection
 dbConnection();

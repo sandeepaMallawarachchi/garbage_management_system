@@ -14,6 +14,7 @@ import WasteTruckRoutes from './pages/WasteTruckRoutes';
 import QRDetails from './pages/QRDetails';
 import About from './pages/About';
 import SnowFlakes from './components/SnowFlakes';
+import ChatButton from './components/ChatButton';
 
 const Layout = () => {
   const location = useLocation();
@@ -31,6 +32,7 @@ const Layout = () => {
         {isAdminRoute && <AdminSidebar />}
         {isTruckRoute && <WasteTruckSidebar />}
         <div className="flex-grow p-5">
+          <ChatButton />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/wasteSchedule" element={<WasteSchedule />} />
