@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ChatBot from './ChatBot';
+import ChatBot from './chatbot/ChatBot';
 import { HiChat } from 'react-icons/hi';
 import bot from '../images/bot.png';
 
