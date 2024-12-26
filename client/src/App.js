@@ -1,7 +1,7 @@
 import './index.css';
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import AdminSidebar from './components/AdminSidebar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './components/Header';
 import FooterComponent from './components/FooterComponent';
 import Home from './pages/Home';
@@ -18,6 +18,12 @@ import ChatButton from './components/ChatButton';
 
 const Layout = () => {
   const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    setIsLoggedIn(!!token);
+  }, []);
 
   const adminRoutes = ["/admin/dashboard", "/admin/dashboard/content", "/admin/requests", "/admin/users", "/admin/reports, admin/priceAmount"];
   const truckRoutes = ["/truck/dashboard", "/truck/dashboard/content", "/truck/requests", "/truck/qrcode"];
@@ -32,7 +38,7 @@ const Layout = () => {
         {isAdminRoute && <AdminSidebar />}
         {isTruckRoute && <WasteTruckSidebar />}
         <div className="flex-grow p-5">
-          <ChatButton />
+          {isLoggedIn && <ChatButton />}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/wasteSchedule" element={<WasteSchedule />} />
