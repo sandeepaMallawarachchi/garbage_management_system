@@ -56,4 +56,4 @@ Ensure you have the following installed:
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone [github](https://github.com/sandeepaMallawarachchi/garbage_management_system)
+   git clone (https://github.com/sandeepaMallawarachchi/garbage_management_system)
