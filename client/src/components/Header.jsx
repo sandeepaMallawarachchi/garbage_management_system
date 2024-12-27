@@ -4,10 +4,29 @@ import { Link, useLocation } from 'react-router-dom';
 import logo from '../images/logo.png';
 import avatar from '../images/avatar.png';
 import AuthModel from "./AuthModel";
+import axios from 'axios';
+import QRModal from './QRModal';
+import { HiQrcode } from "react-icons/hi";
 
 const Header = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+    const cusID = localStorage.getItem('cusID');
+    const [customer, setCustomer] = useState('');
+
+    useEffect(() => {
+        const fetchCustomer = async () => {
+            try {
+                const res = await axios.get(`http://localhost:4000/customer/getCustomer/${cusID}`);
+                setCustomer(res.data);
+            } catch (error) {
+                console.error('Error fetching customer:', error);
+            }
+        };
+
+        fetchCustomer();
+    }, [cusID]);
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -27,9 +46,19 @@ const Header = () => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('cusID');
-        setIsLoggedIn(false);
+        if (window.confirm('Are you sure you want to log out?')) {
+            localStorage.clear();
+            setIsLoggedIn(false);
+            window.location.reload();
+        }
+    };
+
+    const handleOpenQRModal = () => {
+        setIsQRModalOpen(true);
+    };
+
+    const handleCloseQRModal = () => {
+        setIsQRModalOpen(false);
     };
 
     return (
@@ -42,11 +71,19 @@ const Header = () => {
 
                 <div className="flex md:order-2">
                     {isLoggedIn ? (
-                        <Dropdown inline label={<img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />}>
-                            <Dropdown.Item>
-                                <span onClick={handleLogout} className="cursor-pointer">Logout</span>
-                            </Dropdown.Item>
-                        </Dropdown>
+                        <div className='flex justify-between gap-5'>
+                            <HiQrcode onClick={handleOpenQRModal} size={32} className='text-green-500 hover:text-green-600 cursor-pointer' />
+                            <Dropdown inline label={
+                                <div className="flex items-center gap-2">
+                                    <img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
+                                    <span className="text-sm font-medium">{customer?.name}</span>
+                                </div>
+                            }>
+                                <Dropdown.Item>
+                                    <span onClick={handleLogout} className="cursor-pointer text-red-600 font-medium">Logout</span>
+                                </Dropdown.Item>
+                            </Dropdown>
+                        </div>
                     ) : (
                         <Button
                             onClick={handleOpenModal}
@@ -65,21 +102,29 @@ const Header = () => {
                     >
                         Home
                     </Navbar.Link>
-                    <Dropdown
-                        label="Services"
-                        inline={true}
-                        className={`hover:text-green-600 w-64 text-sm sm:text-base ${location.pathname.startsWith("/allSchedules") ? "text-green-600" : ""}`}
-                    >
-                        <Dropdown.Item as={Link} to="/wasteSchedule">
-                            Schedule Waste Collection
-                        </Dropdown.Item>
-                        <Dropdown.Item as={Link} to="/allSchedules">
-                            All Schedules
-                        </Dropdown.Item>
-                        <Dropdown.Item as={Link} to="/wasteLevels">
-                            Waste Levels
-                        </Dropdown.Item>
-                    </Dropdown>
+
+                    {isLoggedIn ? (
+                        <Dropdown
+                            label="Services"
+                            inline={true}
+                            className={`hover:text-green-600 w-64 text-sm sm:text-base ${location.pathname.startsWith("/allSchedules") ? "text-green-600" : ""}`}
+                        >
+                            <Dropdown.Item as={Link} to="/wasteSchedule">
+                                Schedule Waste Collection
+                            </Dropdown.Item>
+                            <Dropdown.Item as={Link} to="/allSchedules">
+                                All Schedules
+                            </Dropdown.Item>
+                            <Dropdown.Item as={Link} to="/wasteLevels">
+                                Waste Levels
+                            </Dropdown.Item>
+                        </Dropdown>
+                    ) : (
+                        <span className="text-gray-400 text-sm sm:text-base cursor-not-allowed">
+                            Services (Login Required)
+                        </span>
+                    )}
+
                     <Navbar.Link
                         as={Link}
                         to="/about"
@@ -95,8 +140,10 @@ const Header = () => {
                         Contact
                     </Navbar.Link>
                 </Navbar.Collapse>
+
             </Navbar>
             <AuthModel isOpen={isModalOpen} onClose={handleCloseModal} />
+            {isQRModalOpen && <QRModal onClose={handleCloseQRModal} />}
         </div>
     );
 }

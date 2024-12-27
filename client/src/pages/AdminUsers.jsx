@@ -21,8 +21,10 @@ const AdminUsers = () => {
 
   const handleDelete = async (cusID) => {
     try {
-      await axios.delete(`http://localhost:4000/customer/deleteCustomer/${cusID}`);
-      setCustomers(customers.filter(customer => customer.cusID !== cusID));
+      if (window.confirm('Are you sure you want to delete user?')) {
+        await axios.delete(`http://localhost:4000/customer/deleteCustomer/${cusID}`);
+        setCustomers(customers.filter(customer => customer.cusID !== cusID));
+      }
     } catch (err) {
       console.error('Error deleting customer:', err);
     }
@@ -50,8 +52,8 @@ const AdminUsers = () => {
               <Table.Cell>{customer.address}</Table.Cell>
               <Table.Cell>{customer.phone}</Table.Cell>
               <Table.Cell>
-                <button onClick={() => handleDelete(customer.cusID)} className="text-red-600 hover:underline">
-                  <HiTrash size={20}/>
+                <button onClick={() => handleDelete(customer.cusID)} className="text-red-600 hover:underline text-center">
+                  <HiTrash size={24} />
                 </button>
               </Table.Cell>
             </Table.Row>

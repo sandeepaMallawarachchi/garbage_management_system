@@ -4,6 +4,7 @@ const { validationResult } = require("express-validator");
 const Customer = require("../models/customerDetails");
 const Schedule = require("../models/collectionDetails");
 const PriceAndAmount = require("../models/PriceAndAmountDetails");
+const nodemailer = require("nodemailer");
 
 //customer login
 exports.cusLogin = async (req, res) => {
@@ -429,7 +430,7 @@ exports.getWasteLevels = async (req, res) => {
         wasteLevels.organic += parseInt(amount, 10) || 0;
       } else if (wasteType === 'recyclable') {
         wasteLevels.recyclable += parseInt(amount, 10) || 0;
-      } else if (wasteType === 'ewaste') {
+      } else if (wasteType === 'eWaste') {
         wasteLevels.eWaste += parseInt(amount, 10) || 0;
       }
     });
@@ -545,5 +546,33 @@ exports.getPriceAndAmount = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+//email transporter
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+//contact us
+exports.contactUs = async (req, res) => {
+  const { email, subject, message } = req.body;
+
+  try {
+    await transporter.sendMail({
+      from: email,
+      to: process.env.EMAIL_USER,
+      subject: `Contact Us: ${subject}`,
+      text: `From: ${email}\n\n${message}`,
+    });
+
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+    console.error("Error sending email:", error);
   }
 };

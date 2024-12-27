@@ -1,7 +1,7 @@
 import './index.css';
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import AdminSidebar from './components/AdminSidebar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './components/Header';
 import FooterComponent from './components/FooterComponent';
 import Home from './pages/Home';
@@ -11,6 +11,11 @@ import WasteLevels from './pages/WasteLevels';
 import AdminDashboard from './pages/AdminDashboard';
 import WasteTruckSidebar from './components/WasteTruckSidebar';
 import WasteTruckRoutes from './pages/WasteTruckRoutes';
+import QRDetails from './pages/QRDetails';
+import About from './pages/About';
+import SnowFlakes from './components/SnowFlakes';
+import ChatButton from './components/chatbot/ChatButton';
+import Contact from './pages/Contact';
 
 const Layout = () => {
   const location = useLocation();
@@ -28,6 +33,7 @@ const Layout = () => {
         {isAdminRoute && <AdminSidebar />}
         {isTruckRoute && <WasteTruckSidebar />}
         <div className="flex-grow p-5">
+          <ChatButton className='z-50'/>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/wasteSchedule" element={<WasteSchedule />} />
@@ -35,10 +41,14 @@ const Layout = () => {
             <Route path="/wasteLevels" element={<WasteLevels />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
             <Route path="/truck/*" element={<WasteTruckRoutes />} />
+            <Route path="/qrDetails/:cusID" element={<QRDetails />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </div>
       </main>
       {!isAdminRoute && !isTruckRoute && <FooterComponent />}
+      <SnowFlakes />
     </div>
   );
 }
