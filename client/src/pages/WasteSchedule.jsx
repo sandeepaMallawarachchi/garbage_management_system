@@ -102,11 +102,11 @@ const WasteSchedule = () => {
     const totalPayment = price;
 
     return (
-        <div className="flex items-center justify-between h-screen my-10">
-            <div className="flex-1">
-                <img src={schedulebg} alt="schedule background" className="object-cover w-full h-full" />
-            </div>
-            <div className="flex-1 p-8">
+        <div className="flex flex-col md:flex-row items-center justify-between h-auto md:h-screen my-10">
+        <div className="w-full md:flex-1">
+            <img src={schedulebg} alt="schedule background" className="object-cover w-full h-full" />
+        </div>
+        <div className="w-full md:flex-1 p-8">
                 <form className="flex max-w-xl flex-col gap-4" onSubmit={handleForm}>
                     <div>
                         <Label value="Schedule Type" />

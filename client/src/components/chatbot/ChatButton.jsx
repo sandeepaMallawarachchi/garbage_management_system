@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import ChatBot from './chatbot/ChatBot';
-import { HiChat } from 'react-icons/hi';
-import bot from '../images/bot.png';
+import ChatBot from './ChatBot';
+import bot from '../../images/bot.png';
 
 const ChatButton = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,7 +13,7 @@ const ChatButton = () => {
         setIsModalOpen(false);
     };
     return (
-        <div className='fixed bottom-10 right-10'>
+        <div className='fixed bottom-10 right-10 z-50'>
             <img src={bot} onClick={handleOpenModal} className='w-20 cursor-pointer' />
             {isModalOpen && <ChatBot onClose={handleCloseModal} />}
         </div>

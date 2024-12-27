@@ -76,7 +76,7 @@ const ChatBot = ({ onClose }) => {
     }, []);
 
     return (
-        <div className="fixed bottom-0 right-0 flex items-end justify-end z-50 p-4 w-[450px] max-w-[450px]">
+        <div className="fixed bottom-0 right-0 flex items-end justify-end z-50 p-4 w-full max-w-sm md:max-w-md lg:max-w-xl xl:max-w-xl">
             <div className="relative bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
                 <div className="flex justify-between">
                     <h1 className="text-xl font-semibold mb-4 flex items-center text-green-600">

@@ -54,4 +54,7 @@ router.get("/getWasteLevels/:cusID", customerController.getWasteLevels);
 //get accepted schedules route
 router.get("/getAcceptedSchedules", customerController.acceptSchedule);
 
+//contact us route
+router.post("/contact", customerController.contactUs);
+
 module.exports = router;

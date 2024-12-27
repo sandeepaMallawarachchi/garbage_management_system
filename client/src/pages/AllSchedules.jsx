@@ -87,79 +87,81 @@ const AllSchedules = () => {
   };
 
   return (
-    <div className="p-20 overflow-x-auto">
-      <div className="relative flex flex-row justify-between items-start mb-5">
-        <h2 className="text-2xl font-bold mb-4 text-green-600">Scheduled Waste Collections</h2>
+    <div className="p-4 overflow-x-auto">
+      <div className="relative flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 space-y-4 sm:space-y-0">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-green-600">Scheduled Waste Collections</h2>
         <Link to='/wasteSchedule'>
           <button
-            className="font-medium bg-green-600 text-white p-2 px-3 rounded-2xl hover:bg-green-700 ml-4 cursor-pointer"
+            className="font-medium bg-green-600 text-white p-2 px-3 sm:px-4 sm:py-2 rounded-lg sm:rounded-2xl hover:bg-green-700 cursor-pointer"
           >
             + Add Schedule
           </button>
         </Link>
       </div>
 
-      <Table>
-        <Table.Head>
-          <Table.HeadCell>Schedule Type</Table.HeadCell>
-          <Table.HeadCell>Waste Type</Table.HeadCell>
-          <Table.HeadCell>Date</Table.HeadCell>
-          <Table.HeadCell>Remarks</Table.HeadCell>
-          <Table.HeadCell>Payment Method</Table.HeadCell>
-          <Table.HeadCell>Total</Table.HeadCell>
-          <Table.HeadCell>Status</Table.HeadCell>
-          <Table.HeadCell>Actions</Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {[...schedules].reverse().map((schedule) => (
-            <Table.Row
-              key={schedule.scheduleID}
-              className={
-                schedule.status === "accepted"
-                  ? "bg-green-100"
-                  : schedule.status === "rejected"
-                    ? "bg-red-100"
-                    : "bg-white dark:border-gray-700 dark:bg-gray-800"
-              }
-            >
-              <Table.Cell>{schedule.scheduleType}</Table.Cell>
-              <Table.Cell>{schedule.wasteType}</Table.Cell>
-              <Table.Cell>{schedule.date ? formatDate(schedule.date) : "Pending Date"}</Table.Cell>
-              <Table.Cell>{schedule.remarks || '-'}</Table.Cell>
-              <Table.Cell>{schedule.paymentMethod} payment</Table.Cell>
-              <Table.Cell>{schedule.price} Rupees</Table.Cell>
-              <Table.Cell>{schedule.status}</Table.Cell>
-              <Table.Cell>
-                {(schedule.status !== 'accepted' && schedule.status !== 'rejected') ? (
-                  <>
-                    <a onClick={() => handleUpdate(schedule)} className="font-medium cursor-pointer">
-                      <HiPencil className="inline-block w-7 h-7 text-green-500" />
-                    </a>
-                    <a onClick={() => handleDelete(schedule.scheduleID)} className="font-medium ml-4 cursor-pointer">
-                      <HiTrash className="inline-block w-7 h-7 text-red-500" />
-                    </a>
-                  </>
-                ) : (
-                  <span className="text-gray-400">No Actions</span>
-                )}
-
-                {schedule.paymentMethod === 'card' &&
-                  (schedule.status === 'accepted' || schedule.status === 'pending') && (
-                    <a
-                      onClick={() => handlePay(schedule.scheduleID)}
-                      className="font-medium bg-green-600 text-white p-2 px-3 rounded-2xl hover:bg-green-700 ml-4 cursor-pointer"
-                    >
-                      Pay
-                    </a>
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-full">
+          <Table.Head>
+            <Table.HeadCell>Schedule Type</Table.HeadCell>
+            <Table.HeadCell>Waste Type</Table.HeadCell>
+            <Table.HeadCell>Date</Table.HeadCell>
+            <Table.HeadCell>Remarks</Table.HeadCell>
+            <Table.HeadCell>Payment Method</Table.HeadCell>
+            <Table.HeadCell>Total</Table.HeadCell>
+            <Table.HeadCell>Status</Table.HeadCell>
+            <Table.HeadCell>Actions</Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {[...schedules].reverse().map((schedule) => (
+              <Table.Row
+                key={schedule.scheduleID}
+                className={
+                  schedule.status === "accepted"
+                    ? "bg-green-100"
+                    : schedule.status === "rejected"
+                      ? "bg-red-100"
+                      : "bg-white dark:border-gray-700 dark:bg-gray-800"
+                }
+              >
+                <Table.Cell>{schedule.scheduleType}</Table.Cell>
+                <Table.Cell>{schedule.wasteType}</Table.Cell>
+                <Table.Cell>{schedule.date ? formatDate(schedule.date) : "Pending Date"}</Table.Cell>
+                <Table.Cell>{schedule.remarks || '-'}</Table.Cell>
+                <Table.Cell>{schedule.paymentMethod} payment</Table.Cell>
+                <Table.Cell>{schedule.price} Rupees</Table.Cell>
+                <Table.Cell>{schedule.status}</Table.Cell>
+                <Table.Cell>
+                  {(schedule.status !== 'accepted' && schedule.status !== 'rejected') ? (
+                    <>
+                      <a onClick={() => handleUpdate(schedule)} className="font-medium cursor-pointer">
+                        <HiPencil className="inline-block w-7 h-7 text-green-500" />
+                      </a>
+                      <a onClick={() => handleDelete(schedule.scheduleID)} className="font-medium ml-4 cursor-pointer">
+                        <HiTrash className="inline-block w-7 h-7 text-red-500" />
+                      </a>
+                    </>
+                  ) : (
+                    <span className="text-gray-400">No Actions</span>
                   )}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+
+                  {schedule.paymentMethod === 'card' &&
+                    (schedule.status === 'accepted' || schedule.status === 'pending') && (
+                      <a
+                        onClick={() => handlePay(schedule.scheduleID)}
+                        className="font-medium bg-green-600 text-white p-2 px-3 rounded-2xl hover:bg-green-700 ml-4 cursor-pointer"
+                      >
+                        Pay
+                      </a>
+                    )}
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </div>
 
       {selectedSchedule && (
-        <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)} className='bg-black bg-opacity-70'>
+        <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)} size="lg">
           <Modal.Header>Update Schedule</Modal.Header>
           <Modal.Body>
             <div className="space-y-4">
@@ -235,16 +237,15 @@ const AllSchedules = () => {
                       checked={selectedSchedule.paymentMethod === 'cash'}
                       onChange={(e) => setSelectedSchedule({ ...selectedSchedule, paymentMethod: e.target.value })}
                     />
-                    Cash on Visit
+                    Cash on Delivery
                   </label>
                 </div>
               </div>
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              className="text-sm px-2 py-1 sm:px-4 sm:py-2 bg-green-600 hover:bg-green-700 rounded-full"
-              onClick={handleUpdateSubmit}>Save Changes</Button>
+            <Button onClick={handleUpdateSubmit}>Update</Button>
+            <Button color="gray" onClick={() => setIsModalOpen(false)}>Cancel</Button>
           </Modal.Footer>
         </Modal>
       )}

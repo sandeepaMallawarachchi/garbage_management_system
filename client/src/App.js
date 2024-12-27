@@ -14,16 +14,11 @@ import WasteTruckRoutes from './pages/WasteTruckRoutes';
 import QRDetails from './pages/QRDetails';
 import About from './pages/About';
 import SnowFlakes from './components/SnowFlakes';
-import ChatButton from './components/ChatButton';
+import ChatButton from './components/chatbot/ChatButton';
+import Contact from './pages/Contact';
 
 const Layout = () => {
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    setIsLoggedIn(!!token);
-  }, []);
 
   const adminRoutes = ["/admin/dashboard", "/admin/dashboard/content", "/admin/requests", "/admin/users", "/admin/reports, admin/priceAmount"];
   const truckRoutes = ["/truck/dashboard", "/truck/dashboard/content", "/truck/requests", "/truck/qrcode"];
@@ -38,7 +33,7 @@ const Layout = () => {
         {isAdminRoute && <AdminSidebar />}
         {isTruckRoute && <WasteTruckSidebar />}
         <div className="flex-grow p-5">
-          {isLoggedIn && <ChatButton />}
+          <ChatButton className='z-50'/>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/wasteSchedule" element={<WasteSchedule />} />
@@ -48,6 +43,7 @@ const Layout = () => {
             <Route path="/truck/*" element={<WasteTruckRoutes />} />
             <Route path="/qrDetails/:cusID" element={<QRDetails />} />
             <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </div>
       </main>
