@@ -16,6 +16,8 @@ import About from './pages/About';
 import SnowFlakes from './components/SnowFlakes';
 import ChatButton from './components/chatbot/ChatButton';
 import Contact from './pages/Contact';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions';
 
 const Layout = () => {
   const location = useLocation();
@@ -44,6 +46,8 @@ const Layout = () => {
             <Route path="/qrDetails/:cusID" element={<QRDetails />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsAndConditions />} />
           </Routes>
         </div>
       </main>
