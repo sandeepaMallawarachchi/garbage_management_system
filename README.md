@@ -1,5 +1,7 @@
 # Green Bin - Waste Management System
 
+![Green Bin](E:\year3\sem1\CSSE\garbage_management\client\src\images) 
+
 A comprehensive **MERN-based web application** designed for effective waste management and schedule organization. This platform offers a range of features, including waste schedule tracking, QR code functionality, authentication, chatbot integration, and an admin dashboard for streamlined management.
 
 ---
@@ -54,4 +56,4 @@ Ensure you have the following installed:
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/waste-management-system.git
+   git clone [github](https://github.com/sandeepaMallawarachchi/garbage_management_system)
