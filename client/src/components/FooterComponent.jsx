@@ -23,21 +23,21 @@ const FooterComponent = () => {
                             <Footer.Title title="Links" className='text-black' />
                             <Footer.LinkGroup col className='text-black'>
                                 <Footer.Link href="/">Home</Footer.Link>
-                                <Footer.Link href="#">About</Footer.Link>
+                                <Footer.Link href="/about">About</Footer.Link>
                             </Footer.LinkGroup>
                         </div>
                         <div>
                             <Footer.Title title="Follow us" className='text-black' />
                             <Footer.LinkGroup col className='text-black'>
-                                <Footer.Link href="#">Github</Footer.Link>
-                                <Footer.Link href="#">Discord</Footer.Link>
+                                <Footer.Link href="https://github.com/sandeepaMallawarachchi/garbage_management_system" target="_blank" rel="noopener noreferrer">Github</Footer.Link>
+                                <Footer.Link href="https://www.linkedin.com/in/sandeepa-mallawarachchi/" target="_blank" rel="noopener noreferrer">LinkedIn</Footer.Link>
                             </Footer.LinkGroup>
                         </div>
                         <div>
                             <Footer.Title title="Legal" className='text-black' />
                             <Footer.LinkGroup col className='text-black'>
-                                <Footer.Link href="#">Privacy Policy</Footer.Link>
-                                <Footer.Link href="#">Terms &amp; Conditions</Footer.Link>
+                                <Footer.Link href="/privacy">Privacy Policy</Footer.Link>
+                                <Footer.Link href="/terms">Terms &amp; Conditions</Footer.Link>
                             </Footer.LinkGroup>
                         </div>
                     </div>
