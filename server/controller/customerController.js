@@ -566,12 +566,13 @@ exports.contactUs = async (req, res) => {
     await transporter.sendMail({
       from: email,
       to: process.env.EMAIL_USER,
-      subject: subject,
-      text: message,
+      subject: `Contact Us: ${subject}`,
+      text: `From: ${email}\n\n${message}`,
     });
 
     res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
+    console.error("Error sending email:", error);
   }
 };
