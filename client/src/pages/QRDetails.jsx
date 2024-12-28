@@ -14,12 +14,12 @@ const QRDetails = () => {
 
     useEffect(() => {
         const fetchCustomer = async () => {
-            const res = await axios.get(`http://localhost:4000/customer/getCustomer/${decryptedCusID}`);
+            const res = await axios.get(`https://garbage-management-system-server.vercel.app/customer/getCustomer/${decryptedCusID}`);
             setCustomer(res.data);
         };
 
         const fetchSchedules = async () => {
-            const res = await axios.get(`http://localhost:4000/customer/getAllSchedules/${decryptedCusID}`);
+            const res = await axios.get(`https://garbage-management-system-server.vercel.app/customer/getAllSchedules/${decryptedCusID}`);
             setSchedules(res.data);
         };
 

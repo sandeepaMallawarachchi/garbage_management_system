@@ -8,7 +8,7 @@ const WasteTruckSchedules = () => {
     useEffect(() => {
         const fetchAcceptedSchedules = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/customer/getAcceptedSchedules');
+                const response = await axios.get('https://garbage-management-system-server.vercel.app/customer/getAcceptedSchedules');
                 const { scheduleDetails } = response.data;
 
                 setAcceptedSchedules(scheduleDetails);

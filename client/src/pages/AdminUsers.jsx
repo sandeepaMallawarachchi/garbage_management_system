@@ -10,7 +10,7 @@ const AdminUsers = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/customer/getAllCustomers');
+        const response = await axios.get('https://garbage-management-system-server.vercel.app/customer/getAllCustomers');
         setCustomers(response.data);
       } catch (err) {
         setError('Error fetching customers');
@@ -22,7 +22,7 @@ const AdminUsers = () => {
   const handleDelete = async (cusID) => {
     try {
       if (window.confirm('Are you sure you want to delete user?')) {
-        await axios.delete(`http://localhost:4000/customer/deleteCustomer/${cusID}`);
+        await axios.delete(`https://garbage-management-system-server.vercel.app/customer/deleteCustomer/${cusID}`);
         setCustomers(customers.filter(customer => customer.cusID !== cusID));
       }
     } catch (err) {

@@ -18,7 +18,7 @@ const Header = () => {
     useEffect(() => {
         const fetchCustomer = async () => {
             try {
-                const res = await axios.get(`http://localhost:4000/customer/getCustomer/${cusID}`);
+                const res = await axios.get(`https://garbage-management-system-server.vercel.app/customer/getCustomer/${cusID}`);
                 setCustomer(res.data);
             } catch (error) {
                 console.error('Error fetching customer:', error);

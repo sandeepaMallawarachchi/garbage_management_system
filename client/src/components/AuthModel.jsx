@@ -50,7 +50,7 @@ const AuthModal = ({ isOpen, onClose }) => {
             return;
         }
         try {
-            await axios.post("http://localhost:4000/customer/register", {
+            await axios.post("https://garbage-management-system-server.vercel.app/customer/register", {
                 name,
                 email,
                 password,
@@ -75,7 +75,7 @@ const AuthModal = ({ isOpen, onClose }) => {
     const sendData = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:4000/customer/login", {
+            const res = await axios.post("https://garbage-management-system-server.vercel.app/customer/login", {
                 email,
                 password,
             });

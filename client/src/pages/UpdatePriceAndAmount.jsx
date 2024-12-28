@@ -16,7 +16,7 @@ const UpdatePriceAndAmount = () => {
         }
         setError('');
         try {
-            await axios.put(`http://localhost:4000/admin/updatePriceAmount/${scheduleType}`, { price, amount });
+            await axios.put(`https://garbage-management-system-server.vercel.app/admin/updatePriceAmount/${scheduleType}`, { price, amount });
             alert('Price and amount updated successfully');
         } catch {
             alert('Failed to update price and amount');
@@ -26,7 +26,7 @@ const UpdatePriceAndAmount = () => {
     useEffect(() => {
         const fetchScheduleDetails = async () => {
             try {
-                const res = await axios.get(`http://localhost:4000/admin/getPriceAmount/${scheduleType}`);
+                const res = await axios.get(`https://garbage-management-system-server.vercel.app/admin/getPriceAmount/${scheduleType}`);
                 setPrice(res.data.price || '');
                 setAmount(res.data.amount || '');
             } catch {

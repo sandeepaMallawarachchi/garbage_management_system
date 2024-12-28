@@ -13,7 +13,7 @@ const AllSchedules = () => {
   useEffect(() => {
     const fetchCollections = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/customer/getAllSchedules/${cusID}`);
+        const response = await axios.get(`https://garbage-management-system-server.vercel.app/customer/getAllSchedules/${cusID}`);
         setSchedules(response.data);
       } catch (err) {
         console.log('Error fetching data');
@@ -27,7 +27,7 @@ const AllSchedules = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this schedule?");
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:4000/customer/deleteSchedule/${cusID}/${id}`);
+        await axios.delete(`https://garbage-management-system-server.vercel.app/customer/deleteSchedule/${cusID}/${id}`);
         setSchedules(schedules.filter((schedule) => schedule.scheduleID !== id));
       } catch (error) {
         console.log('Error deleting schedule:', error);
@@ -42,11 +42,11 @@ const AllSchedules = () => {
 
   const handleUpdateSubmit = async () => {
     try {
-      await axios.put(`http://localhost:4000/customer/updateSchedule/${cusID}/${selectedSchedule.scheduleID}`, selectedSchedule);
+      await axios.put(`https://garbage-management-system-server.vercel.app/customer/updateSchedule/${cusID}/${selectedSchedule.scheduleID}`, selectedSchedule);
       setIsModalOpen(false);
       setSelectedSchedule(null);
 
-      const response = await axios.get(`http://localhost:4000/customer/getAllSchedules/${cusID}`);
+      const response = await axios.get(`https://garbage-management-system-server.vercel.app/customer/getAllSchedules/${cusID}`);
       setSchedules(response.data);
     } catch (error) {
       console.log('Error updating schedule:', error);
@@ -59,7 +59,7 @@ const AllSchedules = () => {
       const payment = {
         sandbox: true,
         merchant_id: '1228428',
-        notify_url: 'http://localhost:4000/customer/notify',
+        notify_url: 'https://garbage-management-system-server.vercel.app/customer/notify',
         order_id: id.toString(),
         items: schedule.type,
         amount: schedule.total,

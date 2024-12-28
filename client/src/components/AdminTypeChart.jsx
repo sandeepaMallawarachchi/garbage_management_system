@@ -19,7 +19,7 @@ const WasteTypeChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/customer/get/all');
+        const response = await axios.get('https://garbage-management-system-server.vercel.app/customer/get/all');
         const customers = response.data;
 
         const wasteTypeCount = customers.reduce((acc, customer) => {

@@ -12,12 +12,12 @@ export function FetchReports() {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/report/get');
+        const response = await axios.get('https://garbage-management-system-server.vercel.app/report/get');
 
         const reportsWithPDF = response.data.map(report => ({
           ...report,
           reportID: report._id.toString(), 
-          pdfUrl: `http://localhost:4000/reports/${report._id}/pdf` 
+          pdfUrl: `https://garbage-management-system-server.vercel.app/reports/${report._id}/pdf` 
         }));
 
         setReports(reportsWithPDF);
@@ -34,7 +34,7 @@ export function FetchReports() {
   const handleDelete = async (reportID) => {
     if (window.confirm("Are you sure you want to delete this report?")) {
       try {
-        await axios.delete(`http://localhost:4000/report/delete/${reportID}`);
+        await axios.delete(`https://garbage-management-system-server.vercel.app/report/delete/${reportID}`);
         setReports((prevReports) => prevReports.filter(report => report.reportID !== reportID));
       } catch (error) {
         console.error("Error deleting report:", error);

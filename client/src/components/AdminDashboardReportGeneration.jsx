@@ -10,7 +10,7 @@ const AdminDashboardReportGeneration = () => {
 
   const generateReport = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/report/generate');
+      const response = await axios.get('https://garbage-management-system-server.vercel.app/report/generate');
       const report = response.data.report;
       setReportData(report);
 

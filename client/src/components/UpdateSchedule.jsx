@@ -11,7 +11,7 @@ export function UpdateSchedule() {
   useEffect(() => {
     const fetchSchedules = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/customer/get/all');
+        const response = await axios.get('https://garbage-management-system-server.vercel.app/customer/get/all');
 
         const allSchedules = response.data.flatMap(customer =>
           customer.schedules.map(schedule => ({
@@ -37,9 +37,9 @@ export function UpdateSchedule() {
     const newDate = dateInputs[scheduleID];
 
     try {
-      console.log(`http://localhost:4000/customer/${status}/${cusID}/${scheduleID}`);
+      console.log(`https://garbage-management-system-server.vercel.app/customer/${status}/${cusID}/${scheduleID}`);
       
-      await axios.put(`http://localhost:4000/customer/${status}/${cusID}/${scheduleID}`, { 
+      await axios.put(`https://garbage-management-system-server.vercel.app/customer/${status}/${cusID}/${scheduleID}`, { 
         status,
         ...(newDate && { date: newDate })
       });

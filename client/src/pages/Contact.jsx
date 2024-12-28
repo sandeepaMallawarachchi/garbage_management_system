@@ -13,7 +13,7 @@ const Contact = () => {
     const handleForm = async (e) => {  
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:4000/customer/contact', {
+            const res = await axios.post('https://garbage-management-system-server.vercel.app/customer/contact', {
                 email,
                 subject,
                 message

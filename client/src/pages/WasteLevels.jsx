@@ -17,7 +17,7 @@ const WasteLevels = () => {
     useEffect(() => {
         const fetchWasteLevels = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/customer/getWasteLevels/${cusID}`);
+                const response = await axios.get(`https://garbage-management-system-server.vercel.app/customer/getWasteLevels/${cusID}`);
                 setWasteLevels(response.data);
             } catch (error) {
                 console.error('Error fetching waste levels:', error);

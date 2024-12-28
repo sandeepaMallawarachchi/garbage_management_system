@@ -19,7 +19,7 @@ const WasteSchedule = () => {
     useEffect(() => {
         const fetchScheduleDetails = async () => {
             try {
-                const res = await axios.get(`http://localhost:4000/admin/getPriceAmount/${scheduleType}`);
+                const res = await axios.get(`https://garbage-management-system-server.vercel.app/admin/getPriceAmount/${scheduleType}`);
                 setPrice(res.data.price || '');
                 setMaxAmount(res.data.amount || '');
             } catch {
@@ -34,7 +34,7 @@ const WasteSchedule = () => {
 
         const fetchAddress = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/customer/getCustomer/${cusID}`);
+                const response = await axios.get(`https://garbage-management-system-server.vercel.app/customer/getCustomer/${cusID}`);
                 setAddress(response.data.address);
             } catch {
                 console.log('Error fetching address data');
@@ -79,7 +79,7 @@ const WasteSchedule = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:4000/customer/addSchedule/${cusID}`, {
+            const response = await fetch(`https://garbage-management-system-server.vercel.app/customer/addSchedule/${cusID}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
